@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 //srceens
 import HomeScreen from "../../screens/HomeScreen";
 import SettingsScreen from "../../screens/SettingsScreen";
-import StackScreen from "../../screens/StackScreen";
+
 import NavigationScreen from "../../screens/NavigationScreen";
 import SchedulesScreen from "../../screens/SchedulesScreen";
 
@@ -45,6 +45,7 @@ function MyTabs() {
       name="Home" 
       options={
         {
+          headerShown: false,
           tabBarLabel: "Inicio",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" size={24} color="black" />
@@ -57,6 +58,7 @@ function MyTabs() {
       <Tab.Screen name="Settings"
       options={
         {
+          headerShown: false,
           tabBarLabel: "Ajustes",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" size={24} color="black" />
@@ -66,6 +68,7 @@ function MyTabs() {
       component={SettingsScreen} />
       <Tab.Screen name="Navigation" 
       options={{
+        headerShown: false,
         tabBarLabel: "Navegación",
         tabBarIcon: ({ color }) => (
           <Entypo name="location" size={24} color="black" />
@@ -75,6 +78,7 @@ function MyTabs() {
       />
       <Tab.Screen name="Schedules" 
       options={{
+        headerShown: false,
         tabBarLabel: "Horarios",
         tabBarIcon: ({ color }) => (
           <FontAwesome name="calendar" size={24} color="black" />
@@ -86,8 +90,8 @@ function MyTabs() {
 }
 export default Navigation = () => {
   return (
-    <NavigationContainer>
+    
       <MyTabs />
-    </NavigationContainer>
+    
   );
 };
