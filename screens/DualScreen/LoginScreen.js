@@ -28,7 +28,7 @@ import {
         
           const unsubscribe = auth.onAuthStateChanged(user => {
             if(user){
-             navigation.navigate("User"); 
+             navigation.navigate("Driver",{user:"ola mundo",email:"ola mundo 2 para pruebas"}); 
             }
             setEmail("");
             setPassword("");
@@ -71,6 +71,7 @@ import {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.inputContainer}>
+          
           <TextInput
             placeholder="Email"
             value={email}

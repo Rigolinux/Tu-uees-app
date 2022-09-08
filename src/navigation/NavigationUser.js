@@ -1,23 +1,29 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
+
 
 //srceens
-import HomeScreen from "../../screens/HomeScreen";
+import HomeScreen from "../../screens/DualScreen/HomeScreen";
 import SettingsScreen from "../../screens/SettingsScreen";
 
-import NavigationScreen from "../../screens/NavigationScreen";
-import SchedulesScreen from "../../screens/SchedulesScreen";
+import NavigationScreen from "../../screens/UserScreen/NavigationUserScreen";
+import SchedulesScreen from "../../screens/DualScreen/SchedulesScreen";
 
 //icons
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
+//firebase
+
 const Tab = createBottomTabNavigator();
 
 
 function MyTabs() {
+  React.useState(() => {
+   
+  },[]);
+
   return (
     <Tab.Navigator
       initialRouteName="Settings"

@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity } from 'react-native'
 import React from 'react'
-import { auth } from '../backend/firebase'
+import { auth } from '../../backend/firebase'
 import Constants from 'expo-constants';
 import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
+  
   
   const navigation = useNavigation();
   const handleLogout = () => {
@@ -29,7 +30,7 @@ const HomeScreen = () => {
       <TouchableOpacity>
         <Text onPress={handleChangePassword}>Cambiar Contraseña</Text>
       </TouchableOpacity>
-
+    
      <TouchableOpacity onPress={handleLogout}>
         <Text>Logout</Text>
       </TouchableOpacity>
