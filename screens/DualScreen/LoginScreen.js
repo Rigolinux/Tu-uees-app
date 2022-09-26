@@ -28,7 +28,7 @@ import {
         
           const unsubscribe = auth.onAuthStateChanged(user => {
             if(user){
-             navigation.navigate("Driver",{user:"ola mundo",email:"ola mundo 2 para pruebas"}); 
+             navigation.navigate("Driver"); 
             }
             setEmail("");
             setPassword("");

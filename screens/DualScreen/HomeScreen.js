@@ -4,10 +4,20 @@ import { auth } from '../../backend/firebase'
 import Constants from 'expo-constants';
 import { useNavigation } from "@react-navigation/native";
 
+
+//redux components
+import { useSelector,useDispatch } from 'react-redux';
+import {getOrigin} from '../../src/redux/states/travel/origin';
+
 const HomeScreen = () => {
   
   
+    const origin = useSelector((state) => state.origin.latitude);
+    console.log(origin);
+  
+  
   const navigation = useNavigation();
+
   const handleLogout = () => {
     auth.signOut()
     .then(() => {
@@ -22,6 +32,11 @@ const HomeScreen = () => {
     navigation.navigate("ChangePassword");
   }
 
+  React.useEffect(() => {
+   
+  },[]);
+
+
   return (
     <SafeAreaView style={styles.Topm} >
     <View>
@@ -34,7 +49,7 @@ const HomeScreen = () => {
      <TouchableOpacity onPress={handleLogout}>
         <Text>Logout</Text>
       </TouchableOpacity>
-      
+      <Text>{origin}</Text>
     </View>
     </SafeAreaView>
   )

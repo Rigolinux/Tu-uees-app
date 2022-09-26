@@ -26,7 +26,7 @@ function MyTabs() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Settings"
+      initialRouteName="Home"
       activeColor="#45f32a"
       inactiveColor="#ff0b0b"
       screenOptions={
@@ -54,7 +54,7 @@ function MyTabs() {
           headerShown: false,
           tabBarLabel: "Inicio",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" size={24} color="black" />
+              <FontAwesome name="user-circle" size={24} color="black" />
           ),
           tabBarBadge: 3,
         }
@@ -69,6 +69,7 @@ function MyTabs() {
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" size={24} color="black" />
           ),
+          tabBarBadge: 3,
         }
       }
       component={SettingsScreen} />
@@ -79,6 +80,7 @@ function MyTabs() {
         tabBarIcon: ({ color }) => (
           <Entypo name="location" size={24} color="black" />
         ),
+        tabBarBadge: 3,
       }}
       component={NavigationScreen} 
       />
@@ -89,6 +91,7 @@ function MyTabs() {
         tabBarIcon: ({ color }) => (
           <FontAwesome name="calendar" size={24} color="black" />
         ),
+        tabBarBadge: 3,
       }}
       component={SchedulesScreen} />
     </Tab.Navigator>
