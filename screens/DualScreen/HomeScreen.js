@@ -43,7 +43,7 @@ const HomeScreen = () => {
       <Text>Home Screen</Text>
      <Text>Email:{auth.currentUser?.email}</Text>
       <TouchableOpacity>
-        <Text onPress={handleChangePassword}>Cambiar Contraseña</Text>
+        <Text onPress={handleChangePassword} >Cambiar Contraseña</Text>
       </TouchableOpacity>
     
      <TouchableOpacity onPress={handleLogout}>
