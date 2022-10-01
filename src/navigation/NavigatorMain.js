@@ -4,24 +4,24 @@ import { StyleSheet } from 'react-native';
 import {  createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut } from "firebase/auth";
 import {auth} from '../../backend/firebase';
 
-import LoginScreen from '../../screens/DualScreen/LoginScreen';
-import NavigationUser from './NavigationUser';
-import StackScreen from '../../screens/DualScreen/ChanguePasswordScreen';
+import LoginScreen      from '../../screens/DualScreen/LoginScreen';
+import NavigationUser   from './NavigationUser';
+import StackScreen      from '../../screens/DualScreen/ChanguePasswordScreen';
 import NavigationDriver from './NavigationDriver';
+
+import SchedulesScreen  from '../../screens/DualScreen/SchedulesScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function NavigatorMain() {
-
- 
-
     return (
       <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
-        <Stack.Screen name="User" options={{headerShown: false}} component={NavigationUser} />
-        <Stack.Screen name="ChangePassword" options={{headerShown: false}} component={StackScreen} /> 
-        <Stack.Screen name= "Driver" options={{headerShown: false}} component={NavigationDriver} />
+        <Stack.Screen name="User"             options={{headerShown: false}} component={NavigationUser} />
+        <Stack.Screen name="SchedulesScreen"  options={{headerShown: false}} component={SchedulesScreen} />
+        <Stack.Screen name="Login"            options={{headerShown: false}} component={LoginScreen} />
+        <Stack.Screen name="ChangePassword"   options={{headerShown: false}} component={StackScreen} /> 
+        <Stack.Screen name= "Driver"          options={{headerShown: false}} component={NavigationDriver} />
       </Stack.Navigator>
     </NavigationContainer>
     );
