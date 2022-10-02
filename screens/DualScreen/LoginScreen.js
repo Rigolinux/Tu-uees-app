@@ -10,48 +10,96 @@ import {
   
   //navigation
   import { useNavigation } from "@react-navigation/native";
-  
+
+
+  //db
+  import { collection, doc, getDocs, where,query } from 'firebase/firestore'
+  import { db } from '../../backend/firebase'
+
+// redux
+import {useSelector,useDispatch} from 'react-redux'
+import {getProfile} from '../../src/redux/states/profile'
+  //auth firebase
   const auth = getAuth();
   
   
+  
   const Loginscreen = () => {
+    const dispatch = useDispatch();
   
     const navigation = useNavigation();
   
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     
-  
+    const [datos, setDatos] = React.useState([]);    
+    
     React.useEffect(() => {
       
-      auth.onAuthStateChanged(user => {
+      auth.onAuthStateChanged( user => {
         
           const unsubscribe = auth.onAuthStateChanged(user => {
+            navigation.navigate("Login");
             if(user){
-             navigation.navigate("User"); 
+              //dispatch(getProfile(user.uid));
+             
+             //navigation.navigate("User"); 
+            }
+            else{
+              //navigation.navigate("Login");
             }
             setEmail("");
             setPassword("");
-          });
+            
+          })
+          
   
           return unsubscribe;
       })
     } ,[])
-  
+   
+
+
     const handleLogin = () => {
         console.log(email);
         console.log(password);
       signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-    
-      // Signed in
-      const user = userCredential.user;
-      navigation.navigate("User");
-      // ...
+      console.log("credenciales",userCredential)
+      
+      console.log("user",userCredential.user.uid)
+      const profileRef = collection(db, 'Perfiles');
+      const profile = query(profileRef, where("id_user", "==", userCredential.user.uid));
+        const execute = async () => {
+          let values = {};
+          const querySnapshot = await getDocs(profile).then((querySnapshot) => {
+           const data = querySnapshot.docs.map((doc) => (
+          {correo,id_user,type_user } = doc.data(),
+          values.correo =  correo,
+          values.id_user = id_user,
+          values.type_user = type_user,
+          values.travel = false
+          
+          ))
+          
+        }).then(() => {
+          console.log("data",values)
+          setDatos(values);
+          dispatch(getProfile(values));
+        }).then(() => {
+          if(values.type_user === true){
+          navigation.navigate("Driver")}
+          else{
+            navigation.navigate("User")
+          }
+
+          })
+        }
+       return execute(); 
     })
     .catch((error) => {
       console.log(error);
-    });
+    })
     }
     
     const handleCreateAccount = () => {

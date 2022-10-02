@@ -7,20 +7,45 @@ import * as Location from 'expo-location';
 
 import {APY_KEY_MAPS} from '@env'
 
-const carImage = require('../../assets/images/car.png');
+
+
 
 //redux components
 import { useSelector,useDispatch } from 'react-redux';
 import {setOrigin} from '../../src/redux/states/travel/origin';
 
 
+import {db} from '../../backend/firebase';
+import { getDocs,collection } from "firebase/firestore";
+
+const database = collection(db,'xx');
+
+const getCurrentPosition = async () => {
+    
+    try {
+       const x = await getDocs(database).then((document) => {
+            const dataDb = document.docs.map((doc) => (doc.data()));
+            
+            return dataDb;
+    });
+        return x;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 const NavigationScreen = () => {
+
 
   // disparador de redux
   const dispatch = useDispatch();
 
   
-
+ 
+  //hooks
+  const [travel,setTravel] = React.useState(false)
+   
   const [origin,setorigin] = React.useState({
     latitude: 13.706546231782209,
     longitude: -89.21181117711335,
@@ -36,10 +61,12 @@ const NavigationScreen = () => {
     longitudeDelta: 0.0421,
   });
 
-
+ 
   
 
   React.useEffect( async() => {
+
+    
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
       alert('Permission to access location was denied');
@@ -54,9 +81,16 @@ const NavigationScreen = () => {
       
       dispatch(setOrigin(origin));
       
+      
   },[]);
 
+  const startTravel = () =>{
   
+  }
+ 
+  const stoptTravel = () =>{
+
+  }
   
  
   
@@ -68,8 +102,8 @@ const NavigationScreen = () => {
        <MapView
       initialRegion={origin}
       style={styles.Maps}
-      showsUserLocation={true}
-      showsMyLocationButton={true}
+      showsUserLocation={travel}
+      showsMyLocationButton={travel}
       userLocationUpdateInterval={10000}
       onUserLocationChange={(event) => {
         setorigin({
@@ -79,7 +113,18 @@ const NavigationScreen = () => {
           longitudeDelta: 0.0421,
           
         });
-        console.log("cambio")
+        getCurrentPosition().then((data) => {
+          setdestination({
+            latitude: data[0].latitude,
+            longitude: data[0].longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          });
+        });
+        
+        
+        
+
       }}
         >
       
@@ -103,7 +148,11 @@ const NavigationScreen = () => {
         />
       </MapView>
       
-      <Text style={{position: 'absolute', top: 40, left: 50 ,height:300,width:200}} onPress={()=> {traveling()}} >Ward</Text>
+      <TouchableOpacity style={{ position: 'absolute', top: 100 }}>
+      <View style={{ height: 55, backgroundColor: '#ffffff' }}>
+          <Text>Button</Text>
+      </View>
+  </TouchableOpacity>
       <Text style={{position: 'absolute', top: 80, left: 50 ,height:300,width:200}} onPress={()=> {handletravel()}} >Hola</Text>
       
       

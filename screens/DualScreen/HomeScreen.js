@@ -14,7 +14,10 @@ const HomeScreen = () => {
   
     const origin = useSelector((state) => state.origin.latitude);
     console.log(origin);
-  
+    const perfil = () => {
+      const r = useSelector((state) => state.profile);
+      console.log(r)
+    }
   
   const navigation = useNavigation();
 
@@ -33,7 +36,7 @@ const HomeScreen = () => {
   }
 
   React.useEffect(() => {
-   
+      
   },[]);
 
 
@@ -50,6 +53,8 @@ const HomeScreen = () => {
         <Text>Logout</Text>
       </TouchableOpacity>
       <Text>{origin}</Text>
+
+      
     </View>
     </SafeAreaView>
   )

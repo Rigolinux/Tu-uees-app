@@ -8,7 +8,7 @@ import LoginScreen from '../../screens/DualScreen/LoginScreen';
 import NavigationUser from './NavigationUser';
 import StackScreen from '../../screens/DualScreen/ChanguePasswordScreen';
 import NavigationDriver from './NavigationDriver';
-
+import Loading from '../../screens/DualScreen/Loading';
 const Stack = createNativeStackNavigator();
 
 export default function NavigatorMain() {
@@ -20,6 +20,7 @@ export default function NavigatorMain() {
       <Stack.Navigator>
 
         <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
+        <Stack.Screen options={{headerShown: false}} name="Loading" component={Loading} />
         <Stack.Screen name="User" options={{headerShown: false}} component={NavigationUser} />
         <Stack.Screen name="ChangePassword" options={{headerShown: false}} component={StackScreen} /> 
         <Stack.Screen name= "Driver" options={{headerShown: false}} component={NavigationDriver} />

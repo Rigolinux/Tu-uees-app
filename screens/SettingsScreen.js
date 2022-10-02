@@ -1,24 +1,21 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
+import { useSelector,useDispatch } from 'react-redux';
+import {getDestinationFromDatabase} from '../src/redux/states/travel/destination';
+
 const SettingsScreen = () => {
-  const [mytime, setMytime] = React.useState(0);
-
+    const dispatch = useDispatch();
+    const destination = useSelector((state) => {state.destination});
   React.useEffect(() => {
-    // create a interval and get the id
-    const myInterval = setInterval(() => {
-      setMytime((prevTime) => prevTime + 1);
-      
-    }, 1000);
-    // clear out the interval using the id when unmounting the component
-    return () => clearInterval(()=>{myInterval});
-
+    dispatch(getDestinationFromDatabase());
+    console.log(destination);
   }, []);
 
 
   return (
     <View>
-      <Text>{mytime}</Text>
+      <Text>Hola</Text>
     </View>
   )
 }
