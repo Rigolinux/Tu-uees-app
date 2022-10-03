@@ -21,6 +21,7 @@ const HomeScreen = () => {
   
   const navigation = useNavigation();
 
+  
   const handleLogout = () => {
     auth.signOut()
     .then(() => {
@@ -39,7 +40,9 @@ const HomeScreen = () => {
       
   },[]);
 
-
+  const mapago = () => {
+    navigation.navigate("DriverNavigation");
+  }
   return (
     <SafeAreaView style={styles.Topm} >
     <View>
@@ -54,6 +57,7 @@ const HomeScreen = () => {
       </TouchableOpacity>
       <Text>{origin}</Text>
 
+      <Text onPress={mapago}>ir a mapa</Text>
       
     </View>
     </SafeAreaView>

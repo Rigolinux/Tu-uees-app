@@ -29,13 +29,14 @@ import {getProfile} from '../../src/redux/states/profile'
   
     const navigation = useNavigation();
   
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
+    const [email, setEmail] = React.useState("conductor@gmail.com");
+    const [password, setPassword] = React.useState("123456");
     
     const [datos, setDatos] = React.useState([]);    
     
     React.useEffect(() => {
-      
+     
+
       auth.onAuthStateChanged( user => {
         
           const unsubscribe = auth.onAuthStateChanged(user => {
@@ -48,8 +49,8 @@ import {getProfile} from '../../src/redux/states/profile'
             else{
               //navigation.navigate("Login");
             }
-            setEmail("");
-            setPassword("");
+            //setEmail("");
+            //setPassword("");
             
           })
           
@@ -65,9 +66,7 @@ import {getProfile} from '../../src/redux/states/profile'
         console.log(password);
       signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      console.log("credenciales",userCredential)
       
-      console.log("user",userCredential.user.uid)
       const profileRef = collection(db, 'Perfiles');
       const profile = query(profileRef, where("id_user", "==", userCredential.user.uid));
         const execute = async () => {

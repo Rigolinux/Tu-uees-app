@@ -73,7 +73,7 @@ function MyTabs() {
         }
       }
       component={SettingsScreen} />
-      <Tab.Screen name="Navigation" 
+      {/* <Tab.Screen name="Navigation" 
       options={{
         headerShown: false,
         tabBarLabel: "Navegación",
@@ -83,7 +83,7 @@ function MyTabs() {
         tabBarBadge: 3,
       }}
       component={NavigationScreen} 
-      />
+      /> */}
       <Tab.Screen name="Schedules" 
       options={{
         headerShown: false,

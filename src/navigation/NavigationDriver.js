@@ -13,10 +13,20 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+
+//redux components
+import { useSelector, useDispatch } from 'react-redux'
+
+
+
 const NavigationDriver = () => {
 
   const Nav = createBottomTabNavigator();
+  
+  
 
+
+ 
   return (
     <Nav.Navigator
     initialRouteName='Home'
@@ -51,7 +61,7 @@ const NavigationDriver = () => {
 
        component={SettingsScreen} />
 
-      <Nav.Screen 
+      {/* <Nav.Screen 
       name="Navigation" 
       options={{
         headerShown: false,
@@ -59,9 +69,12 @@ const NavigationDriver = () => {
         tabBarIcon: ({ color }) => (
           <Entypo name="location" size={24} color="black" />
         ),
+      
        
       }}
-      component={NavigatorDriverScreen} />
+    
+      component={NavigatorDriverScreen} 
+      /> */}
 
       <Nav.Screen 
       name="Schedules" 
@@ -71,8 +84,9 @@ const NavigationDriver = () => {
         tabBarIcon: ({ color }) => (
           <FontAwesome name="bus" size={24} color="black" />
         ),
-        
+      
       }}
+      
       component={SchedulesScreen} />
     </Nav.Navigator>
   )
