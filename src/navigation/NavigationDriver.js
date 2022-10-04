@@ -9,13 +9,11 @@ import NavigatorDriverScreen from '../../screens/DriverScreen/NavigatorDriverScr
 import SchedulesScreen from '../../screens/DualScreen/SchedulesScreen';
 
 //icons 
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Entypo } from '@expo/vector-icons';
+
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
-//redux components
-import { useSelector, useDispatch } from 'react-redux'
+
 
 
 

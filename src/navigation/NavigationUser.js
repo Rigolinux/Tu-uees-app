@@ -10,8 +10,7 @@ import NavigationScreen from "../../screens/UserScreen/NavigationUserScreen";
 import SchedulesScreen from "../../screens/DualScreen/SchedulesScreen";
 
 //icons
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
 //firebase
@@ -27,9 +26,9 @@ function MyTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#45f32a"
-      inactiveColor="#ff0b0b"
-      screenOptions={
+      //activeColor="#45f32a"
+      //inactiveColor="#ff0b0b"
+      /* screenOptions={
         {
 
           tabBarActiveBackgroundColor: "#45f32a",
@@ -45,7 +44,7 @@ function MyTabs() {
             backgroundColor: '#45f32a',
           }
         }
-      }
+      } */
       >
       <Tab.Screen 
       name="Home" 
@@ -56,7 +55,7 @@ function MyTabs() {
           tabBarIcon: ({ color }) => (
               <FontAwesome name="user-circle" size={24} color="black" />
           ),
-          tabBarBadge: 3,
+          
         }
       }
       
@@ -67,9 +66,9 @@ function MyTabs() {
           headerShown: false,
           tabBarLabel: "Ajustes",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" size={24} color="black" />
+            <Feather name="tool" size={24} color="black" />
           ),
-          tabBarBadge: 3,
+          
         }
       }
       component={SettingsScreen} />
@@ -91,7 +90,7 @@ function MyTabs() {
         tabBarIcon: ({ color }) => (
           <FontAwesome name="calendar" size={24} color="black" />
         ),
-        tabBarBadge: 3,
+        
       }}
       component={SchedulesScreen} />
     </Tab.Navigator>

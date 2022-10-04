@@ -19,6 +19,13 @@ import {
 // redux
 import {useSelector,useDispatch} from 'react-redux'
 import {getProfile} from '../../src/redux/states/profile'
+
+//colors
+import {colors} from '../../utils/colors'
+
+
+
+
   //auth firebase
   const auth = getAuth();
   
@@ -29,7 +36,7 @@ import {getProfile} from '../../src/redux/states/profile'
   
     const navigation = useNavigation();
   
-    const [email, setEmail] = React.useState("conductor@gmail.com");
+    const [email, setEmail] = React.useState("corre2@gmail.com");
     const [password, setPassword] = React.useState("123456");
     
     const [datos, setDatos] = React.useState([]);    
@@ -42,12 +49,12 @@ import {getProfile} from '../../src/redux/states/profile'
           const unsubscribe = auth.onAuthStateChanged(user => {
             navigation.navigate("Login");
             if(user){
-              //dispatch(getProfile(user.uid));
+              dispatch(getProfile(user.uid));
              
-             //navigation.navigate("User"); 
+             navigation.navigate("User"); 
             }
             else{
-              //navigation.navigate("Login");
+              navigation.navigate("Login");
             }
             //setEmail("");
             //setPassword("");
@@ -82,7 +89,7 @@ import {getProfile} from '../../src/redux/states/profile'
           ))
           
         }).then(() => {
-          console.log("data",values)
+          //console.log("data",values)
           setDatos(values);
           dispatch(getProfile(values));
         }).then(() => {
@@ -117,15 +124,18 @@ import {getProfile} from '../../src/redux/states/profile'
   
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <Text style={styles.title}>TUEES APP</Text>
         <View style={styles.inputContainer}>
-          
+          <Text style={styles.Text}>Ingrese Usuario</Text>
           <TextInput
             placeholder="Email"
             value={email}
             onChangeText={(text) => setEmail(text)}
             style={styles.input}
           />
+          <Text style={styles.Text}>Ingrese Contraseña</Text>
           <TextInput
+            secureTextEntry={true}
             value={password}
             onChangeText={(text) => setPassword(text)}
             placeholder="Password"
@@ -137,9 +147,9 @@ import {getProfile} from '../../src/redux/states/profile'
           <TouchableOpacity onPress={handleLogin} style={styles.button}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleCreateAccount} style={styles.button}>
-            <Text style={styles.buttonOurlineText}>Register</Text>
-          </TouchableOpacity>
+          {/* <TouchableOpacity onPress={handleCreateAccount} style={styles.button}>
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity> */}
         </View>
       </KeyboardAvoidingView>
     );
@@ -152,12 +162,43 @@ import {getProfile} from '../../src/redux/states/profile'
       justifyContent: "center",
       alignItems: "center",
       flex: 1,
+      backgroundColor: colors.five,
     },
-    inputContainer: {},
-    input: {},
+    inputContainer: {
+    },
+    input: {
+      backgroundColor: colors.one,
+      opacity: 0.3,
+      marginBottom: 30,
+      borderRadius: 3,
+      textAlign: "center",
+      width: 200,
+      color: 'white',
+      fontSize: 15,
+      fontFamily:"sans-serif",
+    },
     buttonOurlineText:{},
     buttonContainer: {},
-    button: {},
-    buttonText: {},
+    button: {
+      backgroundColor: colors.two,
+      marginBottom: 15,
+      padding: 10,
+      width: 200,
+      borderRadius: 5,
+    },
+    buttonText: {
+      textAlign: "center",
+      color: "white",
+    },
+    Text: {
+      color : colors.one,
+      
+    },
+    title: {
+      color: colors.one,
+      fontSize: 30,
+      fontWeight: "bold",
+      marginBottom: 30,
+    },
     
   });

@@ -4,6 +4,7 @@ import originReducer from './states/travel/origin'
 import destinationReducer from './states/travel/destination'
 import CustomizationReducer from './states/Customization/Custom'
 import profileReducer from './states/profile'
+
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
@@ -11,5 +12,6 @@ export const store = configureStore({
     destination: destinationReducer,
     Customization: CustomizationReducer,
     profile: profileReducer,
+    
   },
 })
