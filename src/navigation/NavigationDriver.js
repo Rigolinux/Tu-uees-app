@@ -7,6 +7,7 @@ import HomeScreen from '../../screens/DualScreen/HomeScreen';
 import SettingsScreen from '../../screens/SettingsScreen';
 import NavigatorDriverScreen from '../../screens/DriverScreen/NavigatorDriverScreen';
 import SchedulesScreen from '../../screens/DualScreen/SchedulesScreen';
+import SchedulesDriverScreen from '../../screens/DriverScreen/SchedulesDriverScreen';
 
 //icons 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -73,7 +74,7 @@ const NavigationDriver = () => {
         ),
         
       }}
-      component={SchedulesScreen} />
+      component={SchedulesDriverScreen} />
     </Nav.Navigator>
   )
 }

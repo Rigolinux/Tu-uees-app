@@ -29,8 +29,8 @@ import {getProfile} from '../../src/redux/states/profile'
   
     const navigation = useNavigation();
   
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
+    const [email, setEmail] = React.useState("conductor@gmail.com");
+    const [password, setPassword] = React.useState("123456");
     
     const [datos, setDatos] = React.useState([]);    
     
@@ -48,8 +48,8 @@ import {getProfile} from '../../src/redux/states/profile'
             else{
               //navigation.navigate("Login");
             }
-            setEmail("");
-            setPassword("");
+            // setEmail("");
+            // setPassword("");
             
           })
           
