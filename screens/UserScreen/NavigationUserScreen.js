@@ -35,7 +35,17 @@ const getCurrentPosition = async () => {
 }
 
 
-const NavigationScreen = () => {
+const NavigationScreen = (props) => {
+
+  const pruebaparametros = () => {
+    const id_user_Horario = props.route.params.id_user_h;
+    const type_of_trip_Horarios = props.route.params.t_o_t_h;
+  
+    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", id_user_Horario);
+    console.log("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo", type_of_trip_Horarios);
+  }
+
+
 
 
   // disparador de redux
@@ -153,7 +163,8 @@ const NavigationScreen = () => {
           <Text>Button</Text>
       </View>
   </TouchableOpacity>
-      <Text style={{position: 'absolute', top: 80, left: 50 ,height:300,width:200}} onPress={()=> {handletravel()}} >Hola</Text>
+      {/* <Text style={{position: 'absolute', top: 80, left: 50 ,height:300,width:200}} onPress={()=> {handletravel()}} >Hola</Text> */}
+      <Text style={{position: 'absolute', top: 80, left: 50 ,height:300,width:200}} onPress={()=> {pruebaparametros()}} >xD</Text>
       
       
     </View>

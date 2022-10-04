@@ -29,7 +29,10 @@ import {getProfile} from '../../src/redux/states/profile'
   
     const navigation = useNavigation();
   
-    const [email, setEmail] = React.useState("conductor@gmail.com");
+    // const [email, setEmail] = React.useState("conductor@gmail.com");
+    // const [password, setPassword] = React.useState("123456");
+
+    const [email, setEmail] = React.useState("corre2@gmail.com");
     const [password, setPassword] = React.useState("123456");
     
     const [datos, setDatos] = React.useState([]);    

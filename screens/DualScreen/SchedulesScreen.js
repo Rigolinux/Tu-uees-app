@@ -196,8 +196,9 @@ const SchedulesScreen = (props) => {
                   key={horariocursoida.id}
                   bottomDivider
                   onPress={() => {
-                    props.navigation.navigate("Test", {
-                      id: horariocursoida.id,
+                    props.navigation.navigate("Navigation", {
+                      id_user_h: horariocursoida.id_user,
+                      t_o_t_h: horariocursoida.type_of_trip,
                     });
                   }}
                 >
@@ -233,8 +234,9 @@ const SchedulesScreen = (props) => {
                   key={horariocursoret.id}
                   bottomDivider
                   onPress={() => {
-                    props.navigation.navigate("Test", {
-                      id: horariocursoret.id,
+                    props.navigation.navigate("Navigation", {
+                      id_user_h: horariocursoret.id_user,
+                      t_o_t_h: horariocursoret.type_of_trip,
                     });
                   }}
                 >
