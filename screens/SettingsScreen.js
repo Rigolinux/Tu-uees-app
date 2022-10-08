@@ -64,9 +64,21 @@ const SettingsScreen = () => {
     }
 
   }
-  
+  //campos a crear un icon,value as ancho de la linea, color de la linea
+  /* 
+  Icon = icono de referncia
+  Color = color de la linea
+  values = es el ancho de la linea
+
+  */
+  const saveDataValues = () =>{
+    //guardar datos en la base de datos
+    console.log("guardar datos en la base de datos");
+  }
+
   const restartConfig = () => {
     setIcons([true,false,false]);
+    
     setIcon(1);
     setTest(Bus);
     setValue(3);
@@ -144,7 +156,7 @@ const SettingsScreen = () => {
     /> 
     </MapView>
     <View style={styles.rowContainer}>
-      <TouchableOpacity style={styles.savbtn} onPress={()=>console.log("se guardo en la db")}>
+      <TouchableOpacity style={styles.savbtn} onPress={()=>saveDataValues()}>
         <Text style={styles.Text}>Guardar</Text>
       </TouchableOpacity>
       <TouchableOpacity style={[styles.savbtn,{backgroundColor:"red"}]} onPress={()=>restartConfig()}>
