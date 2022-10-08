@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,TouchableOpacity, Alert} from "react-native";
+import { StyleSheet, Text, View,TouchableOpacity, Alert, StatusBar} from "react-native";
 import React from "react";
 
 //maps view
@@ -25,6 +25,7 @@ import { SpeedDial } from "@rneui/themed";
 
 
 const NavigatorDriverScreen = () => {
+
   // disparador de redux
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -37,6 +38,8 @@ const NavigatorDriverScreen = () => {
   //variables de botones
   const [open, setOpen] = React.useState(false);
   const [pasanger, setPasanger] = React.useState("1");
+  const [colorbtn, setColorbtn] = React.useState("green");
+  const [textbtn, setTextbtn] = React.useState("Iniciar rastreo");
 
   // varianles de navegacion
   const [travel, setTravel] = React.useState(false);
@@ -183,9 +186,21 @@ const NavigatorDriverScreen = () => {
     colorpasanger();
   },[pasanger]);
 
-
+  //tracking function
   const btnstart = () =>{
-    setTravel(true);
+    if(!travel){
+      setTravel(true);
+      console.log("iniciar restreo");
+      setColorbtn("red");
+      setTextbtn("Detener rastreo");
+
+    }
+    else{
+      setTravel(false);
+      console.log("detener restreo");
+      setColorbtn("green");
+      setTextbtn("Iniciar rastreo");
+    }
   }
 
   return (
@@ -193,8 +208,9 @@ const NavigatorDriverScreen = () => {
       <MapView
         initialRegion={origin}
         style={styles.Maps}
-        showsUserLocation={false}
+        showsUserLocation={travel}
         showsMyLocationButton={true}
+        
         userLocationUpdateInterval={10000}
         onUserLocationChange={(event) => {
           setorigin({
@@ -203,7 +219,7 @@ const NavigatorDriverScreen = () => {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           });
-          Updatelocation();
+          //Updatelocation();
         }}
       >
         <Marker draggable coordinate={destination} />
@@ -218,6 +234,15 @@ const NavigatorDriverScreen = () => {
           precision="high"
         />
       </MapView>
+      <StatusBar
+        animated={true}
+        backgroundColor={!travel ? "red" : "green"}
+        barStyle={'default'}
+        showHideTransition={"fade"}
+        
+        
+        />
+
       <TouchableOpacity style={{ position: 'absolute',justifyContent:"flex-end" ,bottom: 8, height: 50, marginLeft: 40 }} >
       <View style={{ height: 50,width:200, backgroundColor: 'red',marginBottom:5,justifyContent:"center",alignItems:"center",borderRadius:5 } } onPress={() => btnConfirmarFinaldeViaje()}>
           <Text style={{color :"white"}}>Terminar viaje</Text>
@@ -225,8 +250,8 @@ const NavigatorDriverScreen = () => {
       </TouchableOpacity>
 
       <TouchableOpacity  style={{ position: 'absolute',justifyContent:"flex-end" ,bottom: 70, height: 50, marginLeft: 40 }} onPress={()=>btnstart()}>
-        <View style={{ height: 50,width:200, backgroundColor: 'green',marginBottom:5,justifyContent:"center",alignItems:"center",borderRadius:5 } } >
-          <Text style={{color:"white"}}>Iniciar Rastreo </Text>
+        <View style={{ height: 50,width:200, backgroundColor: colorbtn,marginBottom:5,justifyContent:"center",alignItems:"center",borderRadius:5 } } >
+          <Text style={{color:"white"}}>{textbtn}</Text>
         </View>
       </TouchableOpacity>
 

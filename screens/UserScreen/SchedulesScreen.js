@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 // Invocando componentes de react-native
-import { ScrollView, SafeAreaView, View, Text, Button, } from 'react-native'
+import { ScrollView, SafeAreaView, View, Text, Button,StatusBar } from 'react-native'
 
 // Invocando componentes para mostrar los datos
 import { Avatar }   from '@rneui/themed'

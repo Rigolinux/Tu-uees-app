@@ -39,7 +39,7 @@ const NavigationScreen = () => {
   const datos = useSelector(state => state.data);
 
   //ref de viaje
-  const docRef = doc(db, "en_Curso", datos.id_travel); 
+  //const docRef = doc(db, "en_Curso", datos.id_travel); 
  
   //hooks
   const [travel,setTravel] = React.useState(true)
@@ -63,7 +63,7 @@ const NavigationScreen = () => {
 
   // ver el estado del transporte en curso
   const[statePasanger,setStatePasanger] = React.useState("1")
- 
+  const [description,setDescription] = React.useState("")
   const getmyPosition = async () => {
   
   let { status } = await Location.requestForegroundPermissionsAsync();
@@ -94,7 +94,7 @@ const NavigationScreen = () => {
       
   },[]);
 
-  const getCurrentDriverPosition = async () => {
+/*   const getCurrentDriverPosition = async () => {
     
     const docSnap = await getDoc(docRef).then((doc) => {
     if (doc.exists()) {
@@ -120,7 +120,7 @@ const NavigationScreen = () => {
   }});
 }
 
-  
+   */
  
   const stoptTravel = () =>{
         setTravel(false);
@@ -138,15 +138,21 @@ const NavigationScreen = () => {
       setTravel(false);
     }
   }
+  React.useEffect( () => {
 
- 
+  },[statePasanger,setStatePasanger]);
+ const updatestatedestination = () => {
+    console.log("voy a actualizar el estado del destino");
+    setStatePasanger("2");
+    console.log("el estado del destino es",statePasanger);
+ }
 
   return (
     <View>
        <MapView
       initialRegion={origin}
       style={styles.Maps}
-      showsUserLocation={travel}
+      //showsUserLocation={travel}
       showsMyLocationButton={true}
       userLocationUpdateInterval={10000}
       onUserLocationChange={(event) => {
@@ -157,7 +163,7 @@ const NavigationScreen = () => {
           longitudeDelta: 0.0421,
           
         });
-        getCurrentDriverPosition();
+        //getCurrentDriverPosition();
       }}
         >
       
@@ -165,7 +171,8 @@ const NavigationScreen = () => {
       <Marker
       draggable
       coordinate={destination}
-      
+      title="Pasajero"
+      description={()=>{()=>updatestatedestination()}}
       
       >
       </Marker>

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity,StatusBar} from 'react-native'
 import React from 'react'
 import { auth } from '../../backend/firebase'
 import Constants from 'expo-constants';
@@ -47,8 +47,10 @@ const HomeScreen = () => {
     navigation.navigate("DriverNavigation");
   }
   return (
-    <SafeAreaView style={styles.Topm} >
+    <SafeAreaView  >
+      
     <View style={styles.container}>
+      <StatusBar backgroundColor="black" hidden={false} />
       <Text style={styles.title}>Perfil</Text>
       <Text style={styles.subtitle}>Correo Electronico</Text>
       <TouchableOpacity style={ styles.box} >
@@ -81,11 +83,7 @@ const styles = StyleSheet.create({
     
 
   },
-  Topm: {
-    marginTop: Constants.statusBarHeight,
-    backgroundColor: colors.three,
-
-  },
+  
   title:{
     color: colors.one,
     fontSize: 30,
