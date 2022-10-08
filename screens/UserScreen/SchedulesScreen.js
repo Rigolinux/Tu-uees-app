@@ -12,7 +12,18 @@ import moment from "moment";
 import { db } from '../../backend/firebase'
 import { collection, doc, getDocs, where, orderBy, query } from 'firebase/firestore'
 
-const SchedulesScreen = (props) => {
+//Redux
+import { useSelector,useDispatch } from 'react-redux'
+import {setdataTravel} from '../../src/redux/states/travel/data'
+
+//import navigation
+import { useNavigation } from '@react-navigation/native'
+
+const SchedulesScreen = () => {
+
+  // Invocando los datos de redux
+  const dispatch = useDispatch()
+  const navigation = useNavigation()
 
   const [horarios_prox, setHorarios_prox]           = useState([]);
   const [horarios_curso_ida, setHorarios_curso_ida] = useState([]);
@@ -196,9 +207,14 @@ const SchedulesScreen = (props) => {
                   key={horariocursoida.id}
                   bottomDivider
                   onPress={() => {
-                    props.navigation.navigate("Test", {
-                      id: horariocursoida.id,
-                    });
+                    const params ={
+                      id_travel :horariocursoida.id_user,
+                      type_trip :horariocursoida.type_of_trip,
+                    }
+                    dispatch(setdataTravel(params))
+
+                    navigation.navigate("UserNavigation")
+                  
                   }}
                 >
                   <Avatar
@@ -233,9 +249,14 @@ const SchedulesScreen = (props) => {
                   key={horariocursoret.id}
                   bottomDivider
                   onPress={() => {
-                    props.navigation.navigate("Test", {
-                      id: horariocursoret.id,
-                    });
+                    const params ={
+                      id_travel :horariocursoret.id_user,
+                      type_trip :horariocursoret.type_of_trip,
+                    }
+                    dispatch(setdataTravel(params))
+
+                      navigation.navigate("UserNavigation")
+                    
                   }}
                 >
                   <Avatar

@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from '../../screens/DualScreen/HomeScreen';
 import SettingsScreen from '../../screens/SettingsScreen';
 import NavigatorDriverScreen from '../../screens/DriverScreen/NavigatorDriverScreen';
-import SchedulesScreen from '../../screens/DualScreen/SchedulesScreen';
+import SchedulesScreen from '../../screens/DriverScreen/SchedulesDriverScreen';
 
 //icons 
 
@@ -75,7 +75,7 @@ const NavigationDriver = () => {
       /> */}
 
       <Nav.Screen 
-      name="Schedules" 
+      name="SchedulesDriver" 
       options={{
         headerShown: false,
         tabBarLabel: "Mis viajes",

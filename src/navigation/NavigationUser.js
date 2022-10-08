@@ -7,7 +7,7 @@ import HomeScreen from "../../screens/DualScreen/HomeScreen";
 import SettingsScreen from "../../screens/SettingsScreen";
 
 import NavigationScreen from "../../screens/UserScreen/NavigationUserScreen";
-import SchedulesScreen from "../../screens/DualScreen/SchedulesScreen";
+import SchedulesScreen from "../../screens/UserScreen/SchedulesScreen";
 
 //icons
 import { Feather } from '@expo/vector-icons';
@@ -83,7 +83,7 @@ function MyTabs() {
       }}
       component={NavigationScreen} 
       /> */}
-      <Tab.Screen name="Schedules" 
+      <Tab.Screen name="SchedulesUser" 
       options={{
         headerShown: false,
         tabBarLabel: "Horarios",

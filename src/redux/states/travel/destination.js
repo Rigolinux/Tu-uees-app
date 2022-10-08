@@ -7,19 +7,6 @@ import {db} from '../../../../backend/firebase'
 import { doc, getDocs,collection } from "firebase/firestore";
 const database = collection(db,'xx');
 
-const getCurrentPosition =async () => {
-    
-    try {
-       const x = await getDocs(database).then((document) => {
-            const dataDb = document.docs.map((doc) => (doc.data()));
-            
-            return dataDb;
-    });
-        return x;
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 const initialState = {
 
@@ -39,9 +26,6 @@ export const destinationSlice = createSlice({
             state.longitude = action.payload.longitude;
             state.latitudeDelta = action.payload.latitudeDelta;
             state.longitudeDelta = action.payload.longitudeDelta;
-        },
-        getDestination: (state) => {
-            return state;
         },
         cleanDestination: (state) => {
             state.latitude = 0;

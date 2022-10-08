@@ -7,12 +7,13 @@ import { useNavigation } from "@react-navigation/native";
 
 //redux components
 import { useSelector,useDispatch } from 'react-redux';
-import {getOrigin} from '../../src/redux/states/travel/origin';
+import {cleanProfile} from '../../src/redux/states/profile';
 
 import {colors} from '../../utils/colors'
 
 const HomeScreen = () => {
-  
+
+  const dispatch = useDispatch();
   
     
     const perfil = () => {
@@ -27,6 +28,7 @@ const HomeScreen = () => {
     auth.signOut()
     .then(() => {
       console.log("Signed Out");
+      dispatch(cleanProfile());
       navigation.navigate("Login");
     }).catch((error) => {
       console.log(error);
@@ -42,7 +44,7 @@ const HomeScreen = () => {
   },[]);
 
   const mapago = () => {
-    navigation.navigate("UserNavigation");
+    navigation.navigate("DriverNavigation");
   }
   return (
     <SafeAreaView style={styles.Topm} >

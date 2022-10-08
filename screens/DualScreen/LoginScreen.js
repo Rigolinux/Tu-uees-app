@@ -36,7 +36,7 @@ import {colors} from '../../utils/colors'
   
     const navigation = useNavigation();
   
-    const [email, setEmail] = React.useState("corre2@gmail.com");
+    const [email, setEmail] = React.useState("conductor@gmail.com");
     const [password, setPassword] = React.useState("123456");
     
     const [datos, setDatos] = React.useState([]);    
@@ -50,8 +50,9 @@ import {colors} from '../../utils/colors'
             navigation.navigate("Login");
             if(user){
               dispatch(getProfile(user.uid));
-             
-             navigation.navigate("User"); 
+              
+                 
+
             }
             else{
               navigation.navigate("Login");
@@ -73,7 +74,8 @@ import {colors} from '../../utils/colors'
         console.log(password);
       signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      
+      console.log("login promesa",userCredential);
+      console.log("login promesa",userCredential.user.uid);
       const profileRef = collection(db, 'Perfiles');
       const profile = query(profileRef, where("id_user", "==", userCredential.user.uid));
         const execute = async () => {
