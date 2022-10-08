@@ -89,10 +89,15 @@ const NavigationScreen = () => {
         console.log("empiezo a navagar");
         setTravel(true);
       })
-
+       //bloquear el return del telefono
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
+      return () => backHandler.remove()
     
       
   },[]);
+
+  
+
 
 /*   const getCurrentDriverPosition = async () => {
     

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,TouchableOpacity, Alert, StatusBar} from "react-native";
+import { StyleSheet, Text, View,TouchableOpacity, Alert, StatusBar,BackHandler} from "react-native";
 import React from "react";
 
 //maps view
@@ -186,6 +186,12 @@ const NavigatorDriverScreen = () => {
     colorpasanger();
   },[pasanger]);
 
+  React.useEffect(() => {
+    //bloquear el return del telefono
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
+      return () => backHandler.remove()
+  }, []);
+
   //tracking function
   const btnstart = () =>{
     if(!travel){
@@ -227,7 +233,7 @@ const NavigatorDriverScreen = () => {
           origin={origin}
           destination={destination}
           apikey={APY_KEY_MAPS}
-          strokeWidth={3}
+          strokeWidth={10}
           mode="DRIVING"
           strokeColor="hotpink"
           timePrecision="now"

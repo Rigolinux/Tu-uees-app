@@ -28,8 +28,26 @@ const NavigationDriver = () => {
   return (
     <Nav.Navigator
     initialRouteName='Home'
+    activeColor="blue"
+      inactiveColor="#ff0b0b"
+     screenOptions={
+        {
 
-    >
+          tabBarActiveBackgroundColor: "#ff0b0b",
+          tabBarInactiveBackgroundColor: "#ff0b0b",
+          // text color inactive bottom tab
+          tabBarInactiveTintColor: '#1a0bff',
+
+          //text color active bottom tab
+          tabBarActiveTintColor: '#ff0b0b',
+          tabBarStyle:{
+            
+            //background of the tab bar
+            backgroundColor: '#45f32a',
+          }
+        }
+      } >
+    
       <Nav.Screen name="Home"
       options={
         {
@@ -59,20 +77,7 @@ const NavigationDriver = () => {
 
        component={SettingsScreen} />
 
-      {/* <Nav.Screen 
-      name="Navigation" 
-      options={{
-        headerShown: false,
-        tabBarLabel: "Navegación",
-        tabBarIcon: ({ color }) => (
-          <Entypo name="location" size={24} color="black" />
-        ),
       
-       
-      }}
-    
-      component={NavigatorDriverScreen} 
-      /> */}
 
       <Nav.Screen 
       name="SchedulesDriver" 

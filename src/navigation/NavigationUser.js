@@ -26,12 +26,12 @@ function MyTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      //activeColor="#45f32a"
-      //inactiveColor="#ff0b0b"
-      /* screenOptions={
+      activeColor="blue"
+      inactiveColor="#ff0b0b"
+     screenOptions={
         {
 
-          tabBarActiveBackgroundColor: "#45f32a",
+          tabBarActiveBackgroundColor: "#ff0b0b",
           tabBarInactiveBackgroundColor: "#ff0b0b",
           // text color inactive bottom tab
           tabBarInactiveTintColor: '#1a0bff',
@@ -44,8 +44,7 @@ function MyTabs() {
             backgroundColor: '#45f32a',
           }
         }
-      } */
-      >
+      } >
       <Tab.Screen 
       name="Home" 
       options={
