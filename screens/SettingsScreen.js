@@ -2,7 +2,7 @@ import { View, Text,StyleSheet,TouchableOpacity,Image } from 'react-native'
 import { Slider } from '@rneui/themed';
 import React from 'react'
 
-import { useSelector,useDispatch } from 'react-redux';
+
 import {getDestinationFromDatabase} from '../src/redux/states/travel/destination';
 
 //colors 
@@ -13,11 +13,21 @@ import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from 'react-native-maps-directions';
 import {APY_KEY_MAPS} from '@env'
 
+
+//redux 
+import { useSelector,useDispatch } from 'react-redux';
+
 const Tanques = require('../assets/images/icons/Tank/TN.png');
 const Bus = require('../assets/images/icons/bus/MONOCROMATICO.png');
 const Zepelin = require('../assets/images/icons/zeepelin/ZN.png');
 const prueba = require('../assets/images/icons/test/AA.png');
+
+
+
+
 const SettingsScreen = () => {
+
+  const profile = useSelector(state => state.profile);
     
   //hooks
   const [value, setValue] = React.useState(1);
@@ -106,6 +116,7 @@ const SettingsScreen = () => {
       
 
       <Text style={styles.subtitle}>Color de direccion</Text>
+      
       <View style={styles.rowContainer}>
         <TouchableOpacity style={[styles.circle,{backgroundColor:"red"}]} onPress={() => setColorline("red")} />
         <TouchableOpacity style={[styles.circle,{backgroundColor:"blue"}]} onPress={() => setColorline("blue")} /> 
@@ -117,7 +128,10 @@ const SettingsScreen = () => {
         <TouchableOpacity style={[styles.circle,{backgroundColor:"aqua"}]} onPress={() => setColorline("aqua")} />
       </View>
       
+      
       <Text style={styles.subtitle}>Tipo de iconos</Text>
+      {!profile.type_user 
+      ?
       <View style={styles.rowContainer}>
         <TouchableOpacity style={icons[0] ? styles.CardSelected : styles.Card}  onPress={()=>updateSelected(1)} >
         
@@ -132,7 +146,24 @@ const SettingsScreen = () => {
           <Image  source={Tanques} style={styles.image} />
         </TouchableOpacity>
       </View>
+      :
+      <View style={styles.rowContainer}>
+        <TouchableOpacity style={icons[0] ? styles.CardSelected : styles.Card}  onPress={()=>updateSelected(1)} >
+        
+          <Image source={Bus} style={styles.image} />
+        </TouchableOpacity>
+        <TouchableOpacity style={icons[1] ? styles.CardSelected : styles.Card} onPress={()=>updateSelected(2)}>
+          
+          <Image source={Zepelin} style={styles.image} />
+        </TouchableOpacity>
+        <TouchableOpacity style={icons[2] ? styles.CardSelected : styles.Card} onPress={()=>updateSelected(3)}>
+          
+          <Image  source={Tanques} style={styles.image} />
+        </TouchableOpacity>
+      </View>
+      }
       <Text style={styles.subtitle}>Vista Previa</Text>
+
     <MapView
       style={styles.map}
       initialRegion={origin}

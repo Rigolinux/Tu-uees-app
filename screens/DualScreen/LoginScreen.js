@@ -2,7 +2,7 @@ import {
     KeyboardAvoidingView,
     StyleSheet,
     TextInput,
-    View,Text,TouchableOpacity
+    View,Text,TouchableOpacity, Alert
   } from "react-native";
   import React from "react";
   
@@ -110,19 +110,7 @@ import {colors} from '../../utils/colors'
     })
     }
     
-    const handleCreateAccount = () => {
-     
-      createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      console.log(user.email);
-      })
-      .catch((error) => {
-      console.log(error);
-      // ..
-      });
-    };
+   
   
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
