@@ -16,7 +16,7 @@ import {APY_KEY_MAPS} from '@env'
 const Tanques = require('../assets/images/icons/Tank/TN.png');
 const Bus = require('../assets/images/icons/bus/MONOCROMATICO.png');
 const Zepelin = require('../assets/images/icons/zeepelin/ZN.png');
-
+const prueba = require('../assets/images/icons/test/AA.png');
 const SettingsScreen = () => {
     
   //hooks
@@ -136,7 +136,7 @@ const SettingsScreen = () => {
     <MapView
       style={styles.map}
       initialRegion={origin}
-      liteMode={true}
+      
       
     >
       <Marker 
@@ -145,7 +145,7 @@ const SettingsScreen = () => {
       />
       <Marker 
         coordinate={destination}
-        image={test}
+        image={prueba}
         style={styles.imagemarker}
       />
       <MapViewDirections

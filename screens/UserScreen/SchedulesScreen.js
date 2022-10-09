@@ -38,7 +38,7 @@ const SchedulesScreen = () => {
   const horariosCursoRetorno = query(horariosRef, where("state", "==", true), where("type_of_trip", "==", "2"), orderBy("date_of_travel", "asc"));
 
   // UseEffect - LLamando a los viajes proximos
-  useEffect(() => {
+  
     const getHorariosProx = async () => {
       const horarios_prox = [];
       const querySnapshot = await getDocs(horariosAproxLimit);
@@ -62,10 +62,9 @@ const SchedulesScreen = () => {
       setHorarios_prox(horarios_prox);
     };
     getHorariosProx();
-  }, []);
 
   // UseEffect - LLamando a los viajes proximos ida
-  useEffect(() => {
+
     const getIda = async () => {
       const horarios_curso_ida = [];
       const querySnapshot = await getDocs(horariosCursoIda);
@@ -89,10 +88,9 @@ const SchedulesScreen = () => {
       setHorarios_curso_ida(horarios_curso_ida);
     };
     getIda();
-  }, []);
 
   // UseEffect - LLamando a los viajes en curso
-  useEffect(() => {
+
     const getRetorno = async () => {
       const horarios_curso_ret = [];
       const querySnapshot = await getDocs(horariosCursoRetorno);
@@ -116,7 +114,7 @@ const SchedulesScreen = () => {
       setHorarios_curso_ret(horarios_curso_ret);
     };
     getRetorno();
-  }, []);
+
 
   return (
     <ScrollView>

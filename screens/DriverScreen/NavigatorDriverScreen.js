@@ -57,120 +57,120 @@ const NavigatorDriverScreen = () => {
     longitudeDelta: 0.0421,
   });
 
-  // React.useEffect(async () => {
-  //   // preguntar si tiene viaje asignado
+  React.useEffect(async () => {
+    // preguntar si tiene viaje asignado
 
-  //   // si tiene viaje asignado
+    // si tiene viaje asignado
 
-  //   let { status } = await Location.requestForegroundPermissionsAsync();
-  //   if (status !== "granted") {
-  //     alert("Permission to access location was denied");
-  //     navigation.navigate("Schedules");
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      alert("Permission to access location was denied");
+      navigation.navigate("Schedules");
 
-  //     return;
-  //   }
-  //   let location = await Location.getCurrentPositionAsync({});
-  //   setorigin({
-  //     latitude: location.coords.latitude,
-  //     longitude: location.coords.longitude,
-  //   });
-  // }, []);
+      return;
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    setorigin({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    });
+  }, []);
 
-  // const Updatelocation = async () => {
-  //   const locationeRef = doc(db, "en_Curso", id_user);
-  //   await updateDoc(locationeRef, {
-  //     latitude: origin.latitude,
-  //     longitude: origin.longitude,
-  //     statePasanger: pasanger,
-  //   })
-  //     .then(() => {
-  //       console.log("esta cambiando");
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error updating document: ", error);
-  //     });
-  // };
+  const Updatelocation = async () => {
+    const locationeRef = doc(db, "en_Curso", id_user);
+    await updateDoc(locationeRef, {
+      latitude: origin.latitude,
+      longitude: origin.longitude,
+      statePasanger: pasanger,
+    })
+      .then(() => {
+        console.log("esta cambiando");
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+      });
+  };
 
-  // const btnConfirmarFinaldeViaje = () => {
+  const btnConfirmarFinaldeViaje = () => {
 
-  //   console.log("finalizar viaje");
-  //   Alert.alert(
-  //     "Finalizar viaje",
-  //     "¿Está seguro de finalizar el viaje?",
-  //     [
-  //       {
-  //         text: "Cancelar",
-  //         style: "cancel"
-  //       },
-  //       { text: "OK", onPress: () => FinishTravel() }
-  //       // { text: "OK", onPress: () => btnconfFinalizarViaje() }
-  //     ],
-  //     { cancelable: false }
-  //   );
+    console.log("finalizar viaje");
+    Alert.alert(
+      "Finalizar viaje",
+      "¿Está seguro de finalizar el viaje?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => FinishTravel() }
+        // { text: "OK", onPress: () => btnconfFinalizarViaje() }
+      ],
+      { cancelable: false }
+    );
     
-  // }
+  }
 
 
-  // const FinishTravel = async () => {
+  const FinishTravel = async () => {
     
-  //   console.log("finalizar viaje version 2");
-  //   setTravel(false);
-  //   //finalizar el viaje lo de kidito
-  //   {
+    console.log("finalizar viaje version 2");
+    setTravel(false);
+    //finalizar el viaje lo de kidito
+    {
 
-  //     const id_HorarioC = datatrips.id_travel;
+      const id_HorarioC = datatrips.id_travel;
   
-  //     // Actualizando la coleccion Historial
-  //     try{
-  //       const historialRef = collection(db, "Historial");
-  //       const histup = doc(historialRef, id_HorarioC);
-  //       await updateDoc(histup, {
-  //         finalizado: true,
-  //         state:      false,
-  //       });
-  //       console.log("Se actualizo el documento en la coleccion de Historial con exito")
-  //     } catch (error) {
-  //       console.log("Error al actualizar en historial: ", error);
-  //     }
+      // Actualizando la coleccion Historial
+      try{
+        const historialRef = collection(db, "Historial");
+        const histup = doc(historialRef, id_HorarioC);
+        await updateDoc(histup, {
+          finalizado: true,
+          state:      false,
+        });
+        console.log("Se actualizo el documento en la coleccion de Historial con exito")
+      } catch (error) {
+        console.log("Error al actualizar en historial: ", error);
+      }
   
       
   
-  //     // Actualizando datos de la coleccion de en_Curso
-  //     try{
-  //       const en_CursoRef = collection(db, "en_Curso");
-  //       const en_CursoUp = doc(en_CursoRef, id_user); // <--- Aquí se debe cambiar el id del usuario por que va quemado
-  //       await updateDoc(en_CursoUp, {
-  //         latitude:   0,
-  //         longitude:  0,
-  //         state:      false,
-  //       });
-  //       console.log("Se actualizo el documento en la coleccion de en_Curso con exito")
-  //     } catch (error) {
-  //       console.log("Error al actualizar en en_Curso: ", error);
-  //     }
+      // Actualizando datos de la coleccion de en_Curso
+      try{
+        const en_CursoRef = collection(db, "en_Curso");
+        const en_CursoUp = doc(en_CursoRef, id_user); // <--- Aquí se debe cambiar el id del usuario por que va quemado
+        await updateDoc(en_CursoUp, {
+          latitude:   0,
+          longitude:  0,
+          state:      false,
+        });
+        console.log("Se actualizo el documento en la coleccion de en_Curso con exito")
+      } catch (error) {
+        console.log("Error al actualizar en en_Curso: ", error);
+      }
   
-  //     // Eliminando el viaje de la coleccion de Horarios
-  //     try{
-  //       const horariosRef = collection(db, "Horarios");
-  //       const horariosDel = doc(horariosRef, id_HorarioC);
-  //       await deleteDoc(horariosDel);
-  //       console.log("Se elimino el documento en la coleccion de Horarios con exito")
-  //     } catch (error) {
-  //       console.log("Error al eliminar en Horarios: ", error);
-  //     }
+      // Eliminando el viaje de la coleccion de Horarios
+      try{
+        const horariosRef = collection(db, "Horarios");
+        const horariosDel = doc(horariosRef, id_HorarioC);
+        await deleteDoc(horariosDel);
+        console.log("Se elimino el documento en la coleccion de Horarios con exito")
+      } catch (error) {
+        console.log("Error al eliminar en Horarios: ", error);
+      }
   
-  //     Alert.alert(
-  //       "Finalizar viaje", 
-  //       "Se finalizó el viaje con exito",
-  //       [
-  //         { text: "OK", onPress: () => navigation.navigate("SchedulesDriver") }
-  //       ]
-  //       );
-  //     // props.navigation.navigate("Schedules");
-  //   }
-  //   //travel = false
-  //   //navegar a horarios
-  // };
+      Alert.alert(
+        "Finalizar viaje", 
+        "Se finalizó el viaje con exito",
+        [
+          { text: "OK", onPress: () => navigation.navigate("SchedulesDriver") }
+        ]
+        );
+      // props.navigation.navigate("Schedules");
+    }
+    //travel = false
+    //navegar a horarios
+  };
 
   const colorpasanger = () => {
     if (pasanger == 1) {
@@ -225,7 +225,7 @@ const NavigatorDriverScreen = () => {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           });
-          //Updatelocation();
+          Updatelocation();
         }}
       >
         <Marker draggable coordinate={destination} />
@@ -249,8 +249,8 @@ const NavigatorDriverScreen = () => {
         
         />
 
-      <TouchableOpacity style={{ position: 'absolute',justifyContent:"flex-end" ,bottom: 8, height: 50, marginLeft: 40 }} >
-      <View style={{ height: 50,width:200, backgroundColor: 'red',marginBottom:5,justifyContent:"center",alignItems:"center",borderRadius:5 } } onPress={() => btnConfirmarFinaldeViaje()}>
+      <TouchableOpacity style={{ position: 'absolute',justifyContent:"flex-end" ,bottom: 8, height: 50, marginLeft: 40 }}  onPress={() => btnConfirmarFinaldeViaje()}>
+      <View style={{ height: 50,width:200, backgroundColor: 'red',marginBottom:5,justifyContent:"center",alignItems:"center",borderRadius:5 } }>
           <Text style={{color :"white"}}>Terminar viaje</Text>
       </View>
       </TouchableOpacity>

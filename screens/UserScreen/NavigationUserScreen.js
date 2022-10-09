@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,TouchableOpacity,Alert,StatusBar} from 'react-native'
+import { StyleSheet, Text, View,TouchableOpacity,Alert,StatusBar,BackHandler} from 'react-native'
 import React from 'react';
 import MapView,{Marker} from 'react-native-maps';
 import Constants from 'expo-constants';
@@ -21,7 +21,7 @@ import { doc, getDoc } from "firebase/firestore";
 //navigation
 import { useNavigation } from '@react-navigation/native';
 
-const carImage = require('../../assets/images/car.png');
+
 
 
 
@@ -39,10 +39,10 @@ const NavigationScreen = () => {
   const datos = useSelector(state => state.data);
 
   //ref de viaje
-  //const docRef = doc(db, "en_Curso", datos.id_travel); 
+  const docRef = doc(db, "en_Curso", datos.id_travel); 
  
   //hooks
-  const [travel,setTravel] = React.useState(true)
+  const [travel,setTravel] = React.useState(false)
    
   const [origin,setorigin] = React.useState({
     latitude: 13.706546231782209,
@@ -63,7 +63,16 @@ const NavigationScreen = () => {
 
   // ver el estado del transporte en curso
   const[statePasanger,setStatePasanger] = React.useState("1")
-  const [description,setDescription] = React.useState("")
+  const [description,setDescription] = React.useState("");
+
+  const [colorbtn,setColorbtn] = React.useState("green");
+  const [textbtn,setTextbtn] = React.useState("Iniciar rastreo");
+
+
+  //images
+  const [stateImage,setStateImage] = React.useState('')
+  let driverImg = require('../../assets/images/icons/Tank/TV.png');
+
   const getmyPosition = async () => {
   
   let { status } = await Location.requestForegroundPermissionsAsync();
@@ -78,7 +87,7 @@ const NavigationScreen = () => {
    
     });
     
-    dispatch(setOrigin(origin));
+    
     
 
  }
@@ -99,7 +108,9 @@ const NavigationScreen = () => {
   
 
 
-/*   const getCurrentDriverPosition = async () => {
+const getCurrentDriverPosition = async () => {
+
+  console.log("datos de la referencia",datos)
     
     const docSnap = await getDoc(docRef).then((doc) => {
     if (doc.exists()) {
@@ -112,20 +123,21 @@ const NavigationScreen = () => {
         longitudeDelta: 0.0421,
       })
       setState(state)
-      setTravel(state)
+      
       setStatePasanger(statePasanger);
       console.log("mira lo que traje hdp",doc.data());
+      console.log("destino",destination);
       }
       else{
-        console.log("no hay viaje asignado");
+        console.log("el viaje que buscas ha terminado");
         setTravel(false);
-        dispatch(cleandtaTravel());
+        //dispatch(cleandtaTravel());
         navigation.navigate("Home");
       }
   }});
 }
 
-   */
+   
  
   const stoptTravel = () =>{
         setTravel(false);
@@ -135,21 +147,27 @@ const NavigationScreen = () => {
   }
   
  
-  const pam = () => {
-    if(!travel){
-      setTravel(true);
-    }
-    else{
-      setTravel(false);
-    }
-  }
-  React.useEffect( () => {
+  
 
-  },[statePasanger,setStatePasanger]);
  const updatestatedestination = () => {
     console.log("voy a actualizar el estado del destino");
     setStatePasanger("2");
     console.log("el estado del destino es",statePasanger);
+ }
+ const Travelstatus = () => {
+
+  if(!travel){
+    setTravel(true);
+    setColorbtn("red");
+    setTextbtn("Detener rastreo");
+  }
+  else{
+    setTravel(false);
+    setColorbtn("green");
+    setTextbtn("Iniciar rastreo");
+  }
+
+
  }
 
   return (
@@ -157,7 +175,7 @@ const NavigationScreen = () => {
        <MapView
       initialRegion={origin}
       style={styles.Maps}
-      //showsUserLocation={travel}
+      showsUserLocation={travel}
       showsMyLocationButton={true}
       userLocationUpdateInterval={10000}
       onUserLocationChange={(event) => {
@@ -168,7 +186,7 @@ const NavigationScreen = () => {
           longitudeDelta: 0.0421,
           
         });
-        //getCurrentDriverPosition();
+        getCurrentDriverPosition();
       }}
         >
       
@@ -176,11 +194,14 @@ const NavigationScreen = () => {
       <Marker
       draggable
       coordinate={destination}
+
       title="Pasajero"
-      description={()=>{()=>updatestatedestination()}}
+      image={driverImg}
+      //description={()=>{()=>updatestatedestination()}}
       
       >
       </Marker>
+
       <MapViewDirections
         origin={origin}
         destination={destination}
@@ -193,15 +214,17 @@ const NavigationScreen = () => {
         />
       </MapView>
       
-      <TouchableOpacity style={{ position: 'absolute', top: 100 } }>
-      <View style={{ height: 55, backgroundColor: '#ffffff' }}  onPress={()=> pam}>
-          <Text>Button</Text>
-      </View>
-  </TouchableOpacity>
-      <Text style={{position: 'absolute', top: 80, left: 50 ,height:300,width:200}} onPress={()=> {console.log(datos)}} >Hola</Text>
-      <TouchableOpacity style={{ position: 'absolute',justifyContent:"center" ,bottom: 8, height: 50, marginLeft: 70,alignItems:"flex-end" }} >
-      <View style={{ height: 50,width:300, backgroundColor: 'red',marginBottom:5,justifyContent:"center",alignItems:"center", borderRadius:5,marginTop:25 } }>
-          <Text style={{color:"#ffff",fontSize: 15}} onPress={() => stoptTravel()}>Button</Text>
+      <StatusBar
+        animated={true}
+        backgroundColor={!travel ? "red" : "green"}
+        barStyle={'default'}
+        showHideTransition={"fade"}
+        
+        
+        />
+      <TouchableOpacity style={{ position: 'absolute',justifyContent:"center" ,bottom: 8, height: 50, marginLeft: 70,alignItems:"flex-end" }} onPress={() => Travelstatus()} >
+      <View style={{ height: 50,width:300, backgroundColor:colorbtn,marginBottom:5,justifyContent:"center",alignItems:"center", borderRadius:5,marginTop:25 } } >
+          <Text style={{color:"#ffff",fontSize: 15}} >{textbtn}</Text>
       </View>
       </TouchableOpacity>
       

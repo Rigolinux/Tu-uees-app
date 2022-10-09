@@ -44,7 +44,7 @@ const HomeScreen = () => {
   },[]);
 
   const mapago = () => {
-    navigation.navigate("DriverNavigation");
+    navigation.navigate("UserNavigation");
   }
   return (
     <SafeAreaView  >
