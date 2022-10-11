@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 // Invocando componentes de react-native
 import {
+  StyleSheet,
   ScrollView,
   SafeAreaView,
   View,
@@ -9,6 +10,9 @@ import {
   Button,
   Alert,
 } from "react-native";
+
+// Invocando el componente color
+import { colors } from "../../utils/colors";
 
 // Invocando componentes para mostrar los datos
 import { Avatar } from "@rneui/themed";
@@ -182,7 +186,7 @@ const SchedulesDriverScreen = (props) => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <View>
         <Text
           style={{
@@ -239,3 +243,15 @@ const SchedulesDriverScreen = (props) => {
 };
 
 export default SchedulesDriverScreen;
+
+// Styles
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    backgroundColor: colors.five,
+  },
+  listItem: {
+    backgroundColor: colors.five,
+    marginTop: 10,
+  }
+})

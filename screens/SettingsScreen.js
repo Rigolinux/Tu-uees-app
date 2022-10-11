@@ -2,10 +2,9 @@ import { View, Text,StyleSheet,TouchableOpacity,Image } from 'react-native'
 import { Slider } from '@rneui/themed';
 import React from 'react'
 
-
 import {getDestinationFromDatabase} from '../src/redux/states/travel/destination';
 
-//colors 
+//colors
 import {colors} from '../utils/colors'
 
 //mapa
@@ -14,7 +13,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import {APY_KEY_MAPS} from '@env'
 
 
-//redux 
+//redux
 import { useSelector,useDispatch } from 'react-redux';
 
 const Tanques = require('../assets/images/icons/Tank/TN.png');
@@ -22,19 +21,30 @@ const Bus = require('../assets/images/icons/bus/MONOCROMATICO.png');
 const Zepelin = require('../assets/images/icons/zeepelin/ZN.png');
 const prueba = require('../assets/images/icons/test/AA.png');
 
+// Importando a la base de datos
+import { db } from '../backend/firebase';
+import { getDoc, updateDoc, doc, collection, query, where, getDocs , orderBy} from 'firebase/firestore';
+import { useEffect } from 'react';
+
 
 
 
 const SettingsScreen = () => {
 
+  // useEffect(() => {
+  //   console.log("APYKEY", APY_KEY_MAPS);
+  // }, []);
+
   const profile = useSelector(state => state.profile);
-    
+
   //hooks
   const [value, setValue] = React.useState(1);
   const [icon, setIcon] = React.useState(1);
   const [icons, setIcons] = React.useState([true,false,false]);
   const [test, setTest] = React.useState(Bus);
   const [colorline, setColorline] = React.useState("white");
+
+  const [perfildoc, setPerfildoc] = React.useState([]);
 
   //coordinates
   const [origin, setorigin] = React.useState({
@@ -50,7 +60,7 @@ const SettingsScreen = () => {
     latitudeDelta: 0.1922,
     longitudeDelta: 0.0421,
   });
-    
+
   const updateSelected = (number) => {
 
     switch(number){
@@ -63,32 +73,76 @@ const SettingsScreen = () => {
         setIcons([false,true,false]);
         setIcon(2);
         setTest(Zepelin);
-        
+
         break;
       case 3:
         setIcons([false,false,true]);
         setIcon(3);
         setTest(Tanques);
         break;
-      
+
     }
 
   }
   //campos a crear un icon,value as ancho de la linea, color de la linea
-  /* 
+  /*
   Icon = icono de referncia
   Color = color de la linea
   values = es el ancho de la linea
 
   */
-  const saveDataValues = () =>{
-    //guardar datos en la base de datos
-    console.log("guardar datos en la base de datos");
+
+  const saveDataValues = () => {
+    const perfilesCollection  = collection(db, "Perfiles");
+    const perfilesFilter      = query(perfilesCollection, where("id_user", "==", profile.id_user));
+    const perfildoc           = [];
+    const perfilesFilterSnap  = getDocs(perfilesFilter);
+    perfilesFilterSnap.then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        perfildoc.push({
+          id: doc.id,
+          ...doc.data()
+        });
+        // console.log(doc.id, " => ", doc.data());
+        // perfildoc.push({
+        //   id: doc.id,
+        // })
+      });
+      setPerfildoc(perfildoc);
+      // const perfilDocsss = doc(db, "Perfiles", perfildoc.id);
+      // console.log("Id del documento perfil:", perfildoc, "id del usuario:", profile.id_user);
+      console.log("Id del documento perfil:", perfildoc[0].id, "id del usuario:", profile.id_user);
+      updatePerfil(perfildoc);
+    });
+
   }
+
+  // Actualizar el documento perfil
+
+  const updatePerfil = async (perfildoc) => {
+    try{
+          await updateDoc(doc(db, "Perfiles", perfildoc[0].id), {
+            icon:     icon,
+            color:    colorline,
+            values:   value,
+          });
+          console.log("Se actualizo correctamente las preferencias");
+    } catch (error) {
+        console.log("Error al actualizar las preferencias", error.message);
+    }
+    // console.log("color seleccionado", colorline);
+    // console.log("icono seleccionado", icon);
+    // console.log("valor seleccionado", value);
+    // console.log("id del usuario", profile.id_user);
+    // console.log("id del documento perfil", perfildoc);
+    // let myVar = perfildoc;
+    // console.log("id del documento perfil", myVar);
+
+  };
 
   const restartConfig = () => {
     setIcons([true,false,false]);
-    
+
     setIcon(1);
     setTest(Bus);
     setValue(3);
@@ -98,7 +152,7 @@ const SettingsScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Configuración</Text>
-      <View style={styles.rowContainer}> 
+      <View style={styles.rowContainer}>
       <Text style={styles.subtitle}>Ancho de direccion:  </Text>
       <Text style={{color:colors.two,fontSize:15}}>{value}</Text>
       </View>
@@ -111,53 +165,53 @@ const SettingsScreen = () => {
         allowTouchTrack
         trackStyle={{ height: 5, backgroundColor: 'transparent' }}
         thumbStyle={{ height: 20, width: 20, backgroundColor: colors.three }}
-        
+
       />
-      
+
 
       <Text style={styles.subtitle}>Color de direccion</Text>
-      
+
       <View style={styles.rowContainer}>
-        <TouchableOpacity style={[styles.circle,{backgroundColor:"red"}]} onPress={() => setColorline("red")} />
-        <TouchableOpacity style={[styles.circle,{backgroundColor:"blue"}]} onPress={() => setColorline("blue")} /> 
-        <TouchableOpacity style={[styles.circle,{backgroundColor:"green"}]} onPress={() => setColorline("green")} />
-        <TouchableOpacity style={[styles.circle,{backgroundColor:"violet"}]} onPress={() => setColorline("violet")} />
-        <TouchableOpacity style={[styles.circle,{backgroundColor:"pink"}]} onPress={() => setColorline("pink")} />
-        <TouchableOpacity style={[styles.circle,{backgroundColor:"white"}]} onPress={() => setColorline("white")} />
-        <TouchableOpacity style={[styles.circle,{backgroundColor:"black"}]} onPress={() => setColorline("black")} />
-        <TouchableOpacity style={[styles.circle,{backgroundColor:"aqua"}]} onPress={() => setColorline("aqua")} />
+        <TouchableOpacity style={[styles.circle,{backgroundColor:"red"}]}     onPress={() => setColorline("red")} />
+        <TouchableOpacity style={[styles.circle,{backgroundColor:"blue"}]}    onPress={() => setColorline("blue")} />
+        <TouchableOpacity style={[styles.circle,{backgroundColor:"green"}]}   onPress={() => setColorline("green")} />
+        <TouchableOpacity style={[styles.circle,{backgroundColor:"violet"}]}  onPress={() => setColorline("violet")} />
+        <TouchableOpacity style={[styles.circle,{backgroundColor:"pink"}]}    onPress={() => setColorline("pink")} />
+        <TouchableOpacity style={[styles.circle,{backgroundColor:"white"}]}   onPress={() => setColorline("white")} />
+        <TouchableOpacity style={[styles.circle,{backgroundColor:"black"}]}   onPress={() => setColorline("black")} />
+        <TouchableOpacity style={[styles.circle,{backgroundColor:"aqua"}]}    onPress={() => setColorline("aqua")} />
       </View>
-      
-      
+
+
       <Text style={styles.subtitle}>Tipo de iconos</Text>
-      {!profile.type_user 
+      {!profile.type_user
       ?
       <View style={styles.rowContainer}>
         <TouchableOpacity style={icons[0] ? styles.CardSelected : styles.Card}  onPress={()=>updateSelected(1)} >
-        
+
           <Image source={Bus} style={styles.image} />
         </TouchableOpacity>
         <TouchableOpacity style={icons[1] ? styles.CardSelected : styles.Card} onPress={()=>updateSelected(2)}>
-          
+
           <Image source={Zepelin} style={styles.image} />
         </TouchableOpacity>
         <TouchableOpacity style={icons[2] ? styles.CardSelected : styles.Card} onPress={()=>updateSelected(3)}>
-          
+
           <Image  source={Tanques} style={styles.image} />
         </TouchableOpacity>
       </View>
       :
       <View style={styles.rowContainer}>
         <TouchableOpacity style={icons[0] ? styles.CardSelected : styles.Card}  onPress={()=>updateSelected(1)} >
-        
+
           <Image source={Bus} style={styles.image} />
         </TouchableOpacity>
         <TouchableOpacity style={icons[1] ? styles.CardSelected : styles.Card} onPress={()=>updateSelected(2)}>
-          
+
           <Image source={Zepelin} style={styles.image} />
         </TouchableOpacity>
         <TouchableOpacity style={icons[2] ? styles.CardSelected : styles.Card} onPress={()=>updateSelected(3)}>
-          
+
           <Image  source={Tanques} style={styles.image} />
         </TouchableOpacity>
       </View>
@@ -167,14 +221,14 @@ const SettingsScreen = () => {
     <MapView
       style={styles.map}
       initialRegion={origin}
-      
-      
+
+
     >
-      <Marker 
+      <Marker
         coordinate={origin}
 
       />
-      <Marker 
+      <Marker
         coordinate={destination}
         image={prueba}
         style={styles.imagemarker}
@@ -184,7 +238,7 @@ const SettingsScreen = () => {
     destination={destination}
     apikey={APY_KEY_MAPS}
     strokeWidth={value} strokeColor={colorline}
-    /> 
+    />
     </MapView>
     <View style={styles.rowContainer}>
       <TouchableOpacity style={styles.savbtn} onPress={()=>saveDataValues()}>
@@ -194,7 +248,7 @@ const SettingsScreen = () => {
         <Text style={styles.Text}>Restablecer Configuración</Text>
       </TouchableOpacity>
     </View>
-      
+
     </View>
   )
 }
@@ -225,7 +279,7 @@ const styles = StyleSheet.create({
   } ,
   Text: {
     color : colors.six,
-    
+
   },
   Card:{
     backgroundColor: "white",
@@ -284,5 +338,5 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     marginLeft: 10,
   },
-  
+
 })

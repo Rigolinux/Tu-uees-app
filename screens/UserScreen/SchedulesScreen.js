@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
 // Invocando componentes de react-native
-import { ScrollView, SafeAreaView, View, Text, Button,StatusBar } from 'react-native'
+import { StyleSheet, ScrollView, SafeAreaView, View, Text, Button, StatusBar } from 'react-native'
+
+// Invocando el componente color
+import { colors } from '../../utils/colors'
 
 // Invocando componentes para mostrar los datos
 import { Avatar }   from '@rneui/themed'
@@ -33,12 +36,13 @@ const SchedulesScreen = () => {
 
   // Referencia a la colección de horarios
   const horariosRef          = collection(db, 'Horarios');
-  const horariosAproxLimit   = query(horariosRef, where("type_of_trip", "==", "1"), orderBy("date_of_travel", "asc"));
-  const horariosCursoIda     = query(horariosRef, where("state", "==", true), where("type_of_trip", "==", "1"), orderBy("date_of_travel", "asc"));
-  const horariosCursoRetorno = query(horariosRef, where("state", "==", true), where("type_of_trip", "==", "2"), orderBy("date_of_travel", "asc"));
+  // const horariosAproxLimit   = query(horariosRef, where("type_of_trip", "==", "1"), orderBy("date_of_travel", "asc"));
+  const horariosAproxLimit   = query(horariosRef, where("state", "==", false),  orderBy("date_of_travel", "asc"));
+  const horariosCursoIda     = query(horariosRef, where("state", "==", true),   where("type_of_trip", "==", "1"), orderBy("date_of_travel", "asc"));
+  const horariosCursoRetorno = query(horariosRef, where("state", "==", true),   where("type_of_trip", "==", "2"), orderBy("date_of_travel", "asc"));
 
   // UseEffect - LLamando a los viajes proximos
-  
+  useEffect(() => {
     const getHorariosProx = async () => {
       const horarios_prox = [];
       const querySnapshot = await getDocs(horariosAproxLimit);
@@ -62,9 +66,11 @@ const SchedulesScreen = () => {
       setHorarios_prox(horarios_prox);
     };
     getHorariosProx();
+  // }, []);
+  }, [horarios_prox]);
 
   // UseEffect - LLamando a los viajes proximos ida
-
+  useEffect(() => {
     const getIda = async () => {
       const horarios_curso_ida = [];
       const querySnapshot = await getDocs(horariosCursoIda);
@@ -88,9 +94,11 @@ const SchedulesScreen = () => {
       setHorarios_curso_ida(horarios_curso_ida);
     };
     getIda();
+  // }, []);
+  }, [horarios_curso_ida]);
 
   // UseEffect - LLamando a los viajes en curso
-
+  useEffect(() => {
     const getRetorno = async () => {
       const horarios_curso_ret = [];
       const querySnapshot = await getDocs(horariosCursoRetorno);
@@ -114,14 +122,15 @@ const SchedulesScreen = () => {
       setHorarios_curso_ret(horarios_curso_ret);
     };
     getRetorno();
-
+  // }, []);
+  }, [horarios_curso_ret]);
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <Text
         style={{
           paddingHorizontal: 5,
-          paddingVertical: 5,
+          // paddingVertical: 5,
           flexDirection: "row",
           justifyContent: "space-between",
         }}
@@ -131,7 +140,7 @@ const SchedulesScreen = () => {
         <View
           style={{
             paddingHorizontal: 20,
-            paddingVertical: 20,
+            // paddingVertical: 5,
             flexDirection: "row",
             justifyContent: "space-between",
           }}
@@ -142,6 +151,7 @@ const SchedulesScreen = () => {
             onPress={() => {
               setShouldShow(!shouldShow);
               setShouldShow2(false);
+              console.log("Se toco el boton a confirmar");
             }}
           ></Button>
 
@@ -151,6 +161,7 @@ const SchedulesScreen = () => {
             onPress={() => {
               setShouldShow2(!shouldShow2);
               setShouldShow(false);
+              console.log("Se toco el boton en progreso");
             }}
           ></Button>
         </View>
@@ -161,10 +172,10 @@ const SchedulesScreen = () => {
 
         {/* Mostrando los viajes proximos propiedad hide true */}
         {shouldShow ? (
-          <View>
+          <View style={{backgroundColor: "rgba(52, 52, 52, 0.2)"}}>
             {horarios_prox.map((horarioprox) => {
               return (
-                <ListItem key={horarioprox.id} bottomDivider>
+                <ListItem key={horarioprox.id} style={{backgroundColor: "rgba(52, 52, 52, 0.2)"}}>
                   <Avatar
                     icon={{
                       name: "bus-outline",
@@ -172,9 +183,10 @@ const SchedulesScreen = () => {
                       color: "red",
                     }}
                     size="large"
+                    backgroundColor="rgba(52, 52, 52, 0.2)"
                   />
                   <ListItem.Content>
-                    <ListItem.Title>
+                    <ListItem.Title style={{backgroundColor: "rgba(52, 52, 52, 0.2)"}}>
                       {"Conductor: "}
                       {horarioprox.correo_del_admin}
                     </ListItem.Title>
@@ -291,3 +303,14 @@ const SchedulesScreen = () => {
 }
 
 export default SchedulesScreen
+
+// Styles
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.five,
+  },
+  listItem: {
+    backgroundColor: colors.five,
+    marginTop: 10,
+  }
+})

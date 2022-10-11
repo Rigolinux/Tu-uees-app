@@ -33,17 +33,17 @@ const NavigationDriver = () => {
      screenOptions={
         {
 
-          tabBarActiveBackgroundColor: "#ff0b0b",
-          tabBarInactiveBackgroundColor: "#ff0b0b",
+          tabBarActiveBackgroundColor:    "#a9a9a9",
+          // tabBarInactiveBackgroundColor:  "#ff0b0b",
           // text color inactive bottom tab
-          tabBarInactiveTintColor: '#1a0bff',
+          tabBarInactiveTintColor:        '#1a0bff',
 
           //text color active bottom tab
-          tabBarActiveTintColor: '#ff0b0b',
+          tabBarActiveTintColor: 'blue',
           tabBarStyle:{
             
             //background of the tab bar
-            backgroundColor: '#45f32a',
+            backgroundColor: '#3b5791',
           }
         }
       } >

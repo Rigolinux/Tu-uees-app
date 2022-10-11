@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity,StatusBar} from 'react-native'
+import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity,StatusBar,TextInput,Alert} from 'react-native'
 import React from 'react'
-import { auth } from '../../backend/firebase'
+
 import Constants from 'expo-constants';
 import { useNavigation } from "@react-navigation/native";
 
+//firebase 
+import { getAuth,updatePassword,signOut} from 'firebase/auth'
 
 //redux components
 import { useSelector,useDispatch } from 'react-redux';
@@ -13,6 +15,9 @@ import {colors} from '../../utils/colors'
 
 const HomeScreen = () => {
 
+  const auth = getAuth();
+  const user = auth.currentUser;
+
   const dispatch = useDispatch();
   
     
@@ -21,6 +26,9 @@ const HomeScreen = () => {
       console.log(r)
     }
   
+    //password hooks
+    const [password, setPassword] = React.useState("");
+    const [repassword, setRePassword] = React.useState("");
   const navigation = useNavigation();
 
   
@@ -35,8 +43,32 @@ const HomeScreen = () => {
     }
     );
   }
-  const handleChangePassword = () => {
-    navigation.navigate("ChangePassword");
+  const ChanguePassword = () => {
+
+    updatePassword(user,password).then(()=>{
+      Alert.alert("Contraseña cambiada con exito");
+      handleLogout();
+    }).catch(error=>{
+      Alert.alert("Error al cambiar la contraseña");
+      console.log(error.message);
+    });
+  }
+
+  const handleChangePassword = async() => {
+    if(password == "" || repassword == ""){
+      Alert.alert("Error!", "Las contraseñas deben tener al menos un valor");
+    }
+    else{
+       if(password==repassword){
+        
+       ChanguePassword();
+
+      }
+      else{
+        Alert.alert("Error!", "Las contraseñas no coinciden");
+
+      }
+    }
   }
 
   React.useEffect(() => {
@@ -57,12 +89,18 @@ const HomeScreen = () => {
       <Text style={styles.text} >{auth.currentUser?.email}</Text>
       </TouchableOpacity>
      
-      <TouchableOpacity style={styles.button}>
-        <Text onPress={handleChangePassword} style={styles.butonntext} >Cambiar Contraseña</Text>
+      <Text style={styles.subtitle}>Cambiar Contraseña</Text>
+      <TouchableOpacity style={[styles.box,{opacity:1}]}>
+        <TextInput value={password} onChangeText={(text)=>{setPassword(text)}} secureTextEntry={true} style={styles.butonntext} />
       </TouchableOpacity>
-    
-     <TouchableOpacity onPress={handleLogout} style={styles.button}>
-        <Text style={styles.butonntext}>Logout</Text>
+      <TouchableOpacity style={[styles.box,{opacity:1}]}>
+        <TextInput value={repassword} onChangeText={(text)=>{setRePassword(text)}} secureTextEntry={true} style={styles.butonntext} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}>
+        <Text onPress={()=>handleChangePassword()} style={styles.butonntext} >Cambiar Contraseña</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleLogout} style={styles.button}>
+        <Text style={styles.butonntext}>Cerrar Sesion</Text>
       </TouchableOpacity>
       
 

@@ -1,7 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-
 //srceens
 import HomeScreen from "../../screens/DualScreen/HomeScreen";
 import SettingsScreen from "../../screens/SettingsScreen";
@@ -12,6 +11,8 @@ import SchedulesScreen from "../../screens/UserScreen/SchedulesScreen";
 //icons
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+
+import { colors } from "../../utils/colors";
 
 //firebase
 
@@ -31,17 +32,17 @@ function MyTabs() {
      screenOptions={
         {
 
-          tabBarActiveBackgroundColor: "#ff0b0b",
-          tabBarInactiveBackgroundColor: "#ff0b0b",
+          tabBarActiveBackgroundColor:    "#a9a9a9",
+          // tabBarInactiveBackgroundColor:  "#ff0b0b",
           // text color inactive bottom tab
-          tabBarInactiveTintColor: '#1a0bff',
+          tabBarInactiveTintColor:      colors.six,
 
           //text color active bottom tab
-          tabBarActiveTintColor: '#ff0b0b',
+          tabBarActiveTintColor:        colors.six,
           tabBarStyle:{
             
             //background of the tab bar
-            backgroundColor: '#45f32a',
+            backgroundColor:            colors.three,
           }
         }
       } >
