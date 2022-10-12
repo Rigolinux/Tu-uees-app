@@ -31,6 +31,12 @@ import { useEffect } from 'react';
 
 const SettingsScreen = () => {
 
+  const [charge, setCharge] = React.useState();
+
+  useEffect(() => {
+    chargeSettings();
+  }, [charge]);
+
   // useEffect(() => {
   //   console.log("APYKEY", APY_KEY_MAPS);
   // }, []);
@@ -45,6 +51,7 @@ const SettingsScreen = () => {
   const [colorline, setColorline] = React.useState("white");
 
   const [perfildoc, setPerfildoc] = React.useState([]);
+  const [perfilesSettings, setPerfilesSettings] = React.useState([]);
 
   //coordinates
   const [origin, setorigin] = React.useState({
@@ -80,10 +87,35 @@ const SettingsScreen = () => {
         setIcon(3);
         setTest(Tanques);
         break;
-
     }
-
   }
+
+  const chargeSettings = () => {
+    const perfilesSettingsCollection  = collection(db, "Perfiles");
+    const perfilesSettingsFilter      = query(perfilesSettingsCollection, where("id_user", "==", profile.id_user));
+    const perfilesSettings            = [];
+    const perfilesSettingsSnap        = getDocs(perfilesSettingsFilter);
+    perfilesSettingsSnap.then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        perfilesSettings.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+      setPerfilesSettings(perfilesSettings);
+
+      let colorcharge = perfilesSettings[0].color;
+      let valuecharge = perfilesSettings[0].values;
+      
+      setColorline(colorcharge);
+      updateSelected(perfilesSettings[0].icon);
+      setValue(valuecharge);
+
+    });
+  }
+
+
+
   //campos a crear un icon,value as ancho de la linea, color de la linea
   /*
   Icon = icono de referncia
@@ -114,7 +146,6 @@ const SettingsScreen = () => {
       console.log("Id del documento perfil:", perfildoc[0].id, "id del usuario:", profile.id_user);
       updatePerfil(perfildoc);
     });
-
   }
 
   // Actualizar el documento perfil
@@ -230,7 +261,8 @@ const SettingsScreen = () => {
       />
       <Marker
         coordinate={destination}
-        image={prueba}
+        // image={prueba}
+        image={test}
         style={styles.imagemarker}
       />
       <MapViewDirections
@@ -247,6 +279,9 @@ const SettingsScreen = () => {
       <TouchableOpacity style={[styles.savbtn,{backgroundColor:"red"}]} onPress={()=>restartConfig()}>
         <Text style={styles.Text}>Restablecer Configuración</Text>
       </TouchableOpacity>
+      {/* <TouchableOpacity style={styles.savbtn} onPress={()=>chargeSettings()}>
+        <Text style={styles.Text}>Test</Text>
+      </TouchableOpacity> */}
     </View>
 
     </View>

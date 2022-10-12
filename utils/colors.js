@@ -1,8 +1,17 @@
 export const colors = {
-        one: "#120907",
-        two: "#151d39",
-        three: "#3b5791",
-        four: "#6f98e4",
-        five: "#a2d3e9",
-        six: "#ffff"
+        one:        "#120907",
+        two:        "#151d39",
+        three:      "#3b5791",
+        four:       "#6f98e4",
+        five:       "#a2d3e9",
+        six:        "#ffff",
+        seven:      "#222651",
+        eight:      "#0078B7",
+        nine:       "#00B4D8",
+        ten:        "#97D4E6",
+        eleven:     "#CCE9F3",
+        twelve:     "#293241",
+        thirteen:   "#ED6C4E",
+        fourteen:   "#3E5A80",
+        fifteen:    "#97C1D8",
     }

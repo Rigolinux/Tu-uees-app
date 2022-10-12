@@ -1,45 +1,75 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 
 // Invocando componentes de react-native
-import { StyleSheet, ScrollView, SafeAreaView, View, Text, Button, StatusBar } from 'react-native'
+import {
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  View,
+  Text,
+  Button,
+  StatusBar,
+  TouchableOpacity,
+} from "react-native";
 
 // Invocando el componente color
-import { colors } from '../../utils/colors'
+import { colors } from "../../utils/colors";
 
 // Invocando componentes para mostrar los datos
-import { Avatar }   from '@rneui/themed'
-import { ListItem } from '@rneui/themed'
+import { Avatar } from "@rneui/themed";
+import { ListItem } from "@rneui/themed";
 import moment from "moment";
+import "moment/locale/es-us";
 
 // Invocando la base de datos
-import { db } from '../../backend/firebase'
-import { collection, doc, getDocs, where, orderBy, query } from 'firebase/firestore'
+import { db } from "../../backend/firebase";
+import {
+  collection,
+  doc,
+  getDocs,
+  where,
+  orderBy,
+  query,
+} from "firebase/firestore";
 
 //Redux
-import { useSelector,useDispatch } from 'react-redux'
-import {setdataTravel} from '../../src/redux/states/travel/data'
+import { useSelector, useDispatch } from "react-redux";
+import { setdataTravel } from "../../src/redux/states/travel/data";
 
 //import navigation
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from "@react-navigation/native";
 
 const SchedulesScreen = () => {
-
   // Invocando los datos de redux
-  const dispatch = useDispatch()
-  const navigation = useNavigation()
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
-  const [horarios_prox, setHorarios_prox]           = useState([]);
+  const [horarios_prox, setHorarios_prox] = useState([]);
   const [horarios_curso_ida, setHorarios_curso_ida] = useState([]);
   const [horarios_curso_ret, setHorarios_curso_ret] = useState([]);
-  const [shouldShow, setShouldShow]                 = useState(false);
-  const [shouldShow2, setShouldShow2]               = useState(false);
+  const [shouldShow, setShouldShow] = useState(false);
+  const [shouldShow2, setShouldShow2] = useState(false);
 
   // Referencia a la colección de horarios
-  const horariosRef          = collection(db, 'Horarios');
+  const horariosRef = collection(db, "Horarios");
   // const horariosAproxLimit   = query(horariosRef, where("type_of_trip", "==", "1"), orderBy("date_of_travel", "asc"));
-  const horariosAproxLimit   = query(horariosRef, where("state", "==", false),  orderBy("date_of_travel", "asc"));
-  const horariosCursoIda     = query(horariosRef, where("state", "==", true),   where("type_of_trip", "==", "1"), orderBy("date_of_travel", "asc"));
-  const horariosCursoRetorno = query(horariosRef, where("state", "==", true),   where("type_of_trip", "==", "2"), orderBy("date_of_travel", "asc"));
+  const horariosAproxLimit = query(
+    horariosRef,
+    where("state", "==", false),
+    orderBy("date_of_travel", "asc")
+  );
+  const horariosCursoIda = query(
+    horariosRef,
+    where("state", "==", true),
+    where("type_of_trip", "==", "1"),
+    orderBy("date_of_travel", "asc")
+  );
+  const horariosCursoRetorno = query(
+    horariosRef,
+    where("state", "==", true),
+    where("type_of_trip", "==", "2"),
+    orderBy("date_of_travel", "asc")
+  );
 
   // UseEffect - LLamando a los viajes proximos
   useEffect(() => {
@@ -48,6 +78,7 @@ const SchedulesScreen = () => {
       const querySnapshot = await getDocs(horariosAproxLimit);
       querySnapshot.forEach((doc) => {
         const {
+          nombre,
           correo_del_admin,
           date_of_travel,
           id_user,
@@ -56,6 +87,7 @@ const SchedulesScreen = () => {
         } = doc.data();
         horarios_prox.push({
           id: doc.id,
+          nombre,
           correo_del_admin,
           date_of_travel,
           id_user,
@@ -66,7 +98,7 @@ const SchedulesScreen = () => {
       setHorarios_prox(horarios_prox);
     };
     getHorariosProx();
-  // }, []);
+    // }, []);
   }, [horarios_prox]);
 
   // UseEffect - LLamando a los viajes proximos ida
@@ -76,6 +108,7 @@ const SchedulesScreen = () => {
       const querySnapshot = await getDocs(horariosCursoIda);
       querySnapshot.forEach((doc) => {
         const {
+          nombre,
           correo_del_admin,
           date_of_travel,
           id_user,
@@ -84,6 +117,7 @@ const SchedulesScreen = () => {
         } = doc.data();
         horarios_curso_ida.push({
           id: doc.id,
+          nombre,
           correo_del_admin,
           date_of_travel,
           id_user,
@@ -94,7 +128,7 @@ const SchedulesScreen = () => {
       setHorarios_curso_ida(horarios_curso_ida);
     };
     getIda();
-  // }, []);
+    // }, []);
   }, [horarios_curso_ida]);
 
   // UseEffect - LLamando a los viajes en curso
@@ -104,6 +138,7 @@ const SchedulesScreen = () => {
       const querySnapshot = await getDocs(horariosCursoRetorno);
       querySnapshot.forEach((doc) => {
         const {
+          nombre,
           correo_del_admin,
           date_of_travel,
           id_user,
@@ -112,6 +147,7 @@ const SchedulesScreen = () => {
         } = doc.data();
         horarios_curso_ret.push({
           id: doc.id,
+          nombre,
           correo_del_admin,
           date_of_travel,
           id_user,
@@ -122,7 +158,7 @@ const SchedulesScreen = () => {
       setHorarios_curso_ret(horarios_curso_ret);
     };
     getRetorno();
-  // }, []);
+    // }, []);
   }, [horarios_curso_ret]);
 
   return (
@@ -172,37 +208,54 @@ const SchedulesScreen = () => {
 
         {/* Mostrando los viajes proximos propiedad hide true */}
         {shouldShow ? (
-          <View style={{backgroundColor: "rgba(52, 52, 52, 0.2)"}}>
+          <View>
             {horarios_prox.map((horarioprox) => {
               return (
-                <ListItem key={horarioprox.id} style={{backgroundColor: "rgba(52, 52, 52, 0.2)"}}>
-                  <Avatar
-                    icon={{
-                      name: "bus-outline",
-                      type: "ionicon",
-                      color: "red",
-                    }}
-                    size="large"
-                    backgroundColor="rgba(52, 52, 52, 0.2)"
-                  />
-                  <ListItem.Content>
-                    <ListItem.Title style={{backgroundColor: "rgba(52, 52, 52, 0.2)"}}>
-                      {"Conductor: "}
-                      {horarioprox.correo_del_admin}
-                    </ListItem.Title>
+                  <ListItem
+                    key={horarioprox.id}
+                    containerStyle={styles.listItem}
+                  >
+                    <Avatar
+                      icon={{
+                        name: "bus-outline",
+                        type: "ionicon",
+                        color: "red",
+                      }}
+                      size="large"
+                    />
 
-                    <ListItem.Subtitle>
+                    <ListItem.Content>
+
+                      <ListItem.Title>
+                        {"Nombre: "}
+                        {horarioprox.nombre}
+                      </ListItem.Title>
+
+
+                      {/* <ListItem.Title>
+                        {"Conductor: "}
+                        {horarioprox.correo_del_admin}
+                      </ListItem.Title> */}
+
+                      {/* <ListItem.Subtitle>
                       {"Identificacion:"} {horarioprox.id_user}
-                    </ListItem.Subtitle>
+                    </ListItem.Subtitle> */}
 
-                    <ListItem.Subtitle>
-                      {"Hora de partida:"}{" "}
-                      {moment(horarioprox.date_of_travel.toDate()).format(
-                        "lll"
-                      )}
-                    </ListItem.Subtitle>
-                  </ListItem.Content>
-                </ListItem>
+                      <ListItem.Subtitle>
+                        {"Tipo de viaje:"}{" "}
+                        {horarioprox.type_of_trip == 1
+                          ? "Metrocentro - Universidad"
+                          : "Universidad - Metrocentro"}
+                      </ListItem.Subtitle>
+
+                      <ListItem.Subtitle>
+                        {"Hora de partida:"}{" "}
+                        {moment(horarioprox.date_of_travel.toDate()).format(
+                          "lll"
+                        )}
+                      </ListItem.Subtitle>
+                    </ListItem.Content>
+                  </ListItem>
               );
             })}
           </View>
@@ -217,15 +270,15 @@ const SchedulesScreen = () => {
                   key={horariocursoida.id}
                   bottomDivider
                   onPress={() => {
-                    const params ={
-                      id_travel :horariocursoida.id_user,
-                      type_trip :horariocursoida.type_of_trip,
-                    }
-                    dispatch(setdataTravel(params))
+                    const params = {
+                      id_travel: horariocursoida.id_user,
+                      type_trip: horariocursoida.type_of_trip,
+                    };
+                    dispatch(setdataTravel(params));
 
-                    navigation.navigate("UserNavigation")
-                  
+                    navigation.navigate("UserNavigation");
                   }}
+                  containerStyle={styles.listItem}
                 >
                   <Avatar
                     icon={{
@@ -237,11 +290,21 @@ const SchedulesScreen = () => {
                   />
                   <ListItem.Content>
                     <ListItem.Title>
+                      {"Nombre: "}
+                      {horariocursoida.nombre}
+                    </ListItem.Title>
+                    {/* <ListItem.Title>
                       {"Conductor: "}
                       {horariocursoida.correo_del_admin}
-                    </ListItem.Title>
-                    <ListItem.Subtitle>
+                    </ListItem.Title> */}
+                    {/* <ListItem.Subtitle>
                       {"Identificacion:"} {horariocursoida.id_user}
+                    </ListItem.Subtitle> */}
+                    <ListItem.Subtitle>
+                      {"Tipo de viaje:"}{" "}
+                      {horariocursoida.type_of_trip == 1
+                        ? "Metrocentro - Universidad"
+                        : "Universidad - Metrocentro"}
                     </ListItem.Subtitle>
                     <ListItem.Subtitle>
                       {"Hora de partida:"}{" "}
@@ -259,15 +322,15 @@ const SchedulesScreen = () => {
                   key={horariocursoret.id}
                   bottomDivider
                   onPress={() => {
-                    const params ={
-                      id_travel :horariocursoret.id_user,
-                      type_trip :horariocursoret.type_of_trip,
-                    }
-                    dispatch(setdataTravel(params))
+                    const params = {
+                      id_travel: horariocursoret.id_user,
+                      type_trip: horariocursoret.type_of_trip,
+                    };
+                    dispatch(setdataTravel(params));
 
-                      navigation.navigate("UserNavigation")
-                    
+                    navigation.navigate("UserNavigation");
                   }}
+                  containerStyle={styles.listItem}
                 >
                   <Avatar
                     icon={{
@@ -279,11 +342,21 @@ const SchedulesScreen = () => {
                   />
                   <ListItem.Content>
                     <ListItem.Title>
+                      {"Nombre: "}
+                      {horariocursoret.nombre}
+                    </ListItem.Title>
+                    {/* <ListItem.Title>
                       {"Conductor: "}
                       {horariocursoret.correo_del_admin}
-                    </ListItem.Title>
-                    <ListItem.Subtitle>
+                    </ListItem.Title> */}
+                    {/* <ListItem.Subtitle>
                       {"Identificacion:"} {horariocursoret.id_user}
+                    </ListItem.Subtitle> */}
+                    <ListItem.Subtitle>
+                      {"Tipo de viaje:"}{" "}
+                      {horariocursoret.type_of_trip == 1
+                        ? "Metrocentro - Universidad"
+                        : "Universidad - Metrocentro"}
                     </ListItem.Subtitle>
                     <ListItem.Subtitle>
                       {"Hora de partida:"}{" "}
@@ -300,9 +373,9 @@ const SchedulesScreen = () => {
       </SafeAreaView>
     </ScrollView>
   );
-}
+};
 
-export default SchedulesScreen
+export default SchedulesScreen;
 
 // Styles
 const styles = StyleSheet.create({
@@ -310,7 +383,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.five,
   },
   listItem: {
-    backgroundColor: colors.five,
-    marginTop: 10,
-  }
-})
+    backgroundColor: colors.three,
+    flex: 1,
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 10,
+    margin: 10,
+  },
+});
