@@ -16,10 +16,27 @@ import {APY_KEY_MAPS} from '@env'
 //redux
 import { useSelector,useDispatch } from 'react-redux';
 
-const Tanques = require('../assets/images/icons/Tank/TN.png');
-const Bus = require('../assets/images/icons/bus/MONOCROMATICO.png');
-const Zepelin = require('../assets/images/icons/zeepelin/ZN.png');
-const prueba = require('../assets/images/icons/test/AA.png');
+//icons user
+const Tanques = require('../assets/images/iconsUser/Tank/TN.png');
+const Bus = require('../assets/images/iconsUser/bus/MONOCROMATICO.png');
+const Zepelin = require('../assets/images/iconsUser/zeepelin/ZN.png');
+
+//icons driver
+const Goal = require('../assets/images/iconsDriver/meta.png');
+const satellite = require('../assets/images/iconsDriver/SATELITE.png');
+const trophy  = require('../assets/images/iconsDriver/TROFEO.png');
+
+//tiny icons
+
+//tiny icons driver
+const tinyGoal = require('../assets/images/iconsDriver/tiny/meta.png');
+const tinySatellite = require('../assets/images/iconsDriver/tiny/SATELITE.png');
+const tinyTrophy  = require('../assets/images/iconsDriver/tiny/TROFEO.png');
+
+//tiny icons user
+const tinybus = require('../assets/images/iconsUser/tiny/MONOCROMATICO.png');
+const tinyTanques = require('../assets/images/iconsUser/tiny/TN.png');
+const tinyZepelin = require('../assets/images/iconsUser/tiny/ZN.png');
 
 // Importando a la base de datos
 import { db } from '../backend/firebase';
@@ -33,21 +50,22 @@ const SettingsScreen = () => {
 
   const [charge, setCharge] = React.useState();
 
-  useEffect(() => {
-    chargeSettings();
-  }, [charge]);
-
-  // useEffect(() => {
-  //   console.log("APYKEY", APY_KEY_MAPS);
-  // }, []);
+  
+ 
 
   const profile = useSelector(state => state.profile);
+
+  useEffect(() => {
+    chargeSettings();
+    console.log(profile)
+  }, [charge]);
+
 
   //hooks
   const [value, setValue] = React.useState(1);
   const [icon, setIcon] = React.useState(1);
   const [icons, setIcons] = React.useState([true,false,false]);
-  const [test, setTest] = React.useState(Bus);
+  const [test, setTest] = React.useState(!profile.type_user ? tinybus : tinyGoal);
   const [colorline, setColorline] = React.useState("white");
 
   const [perfildoc, setPerfildoc] = React.useState([]);
@@ -74,18 +92,18 @@ const SettingsScreen = () => {
       case 1:
         setIcons([true,false,false]);
         setIcon(1);
-        setTest(Bus);
+        setTest(!profile.type_user ? tinybus : tinyGoal);
         break;
       case 2:
         setIcons([false,true,false]);
         setIcon(2);
-        setTest(Zepelin);
+        setTest(!profile.type_user ? tinyZepelin : tinySatellite);
 
         break;
       case 3:
         setIcons([false,false,true]);
         setIcon(3);
-        setTest(Tanques);
+        setTest(!profile.type_user ? tinyTanques:tinyTrophy);
         break;
     }
   }
@@ -175,7 +193,7 @@ const SettingsScreen = () => {
     setIcons([true,false,false]);
 
     setIcon(1);
-    setTest(Bus);
+    setTest(!profile.type_user ? tinybus : tinyGoal);
     setValue(3);
     setColorline("red");
   }
@@ -231,19 +249,20 @@ const SettingsScreen = () => {
           <Image  source={Tanques} style={styles.image} />
         </TouchableOpacity>
       </View>
-      :
+      ://driver
       <View style={styles.rowContainer}>
         <TouchableOpacity style={icons[0] ? styles.CardSelected : styles.Card}  onPress={()=>updateSelected(1)} >
 
-          <Image source={Bus} style={styles.image} />
+          <Image source={Goal} style={styles.image} />
         </TouchableOpacity>
         <TouchableOpacity style={icons[1] ? styles.CardSelected : styles.Card} onPress={()=>updateSelected(2)}>
 
-          <Image source={Zepelin} style={styles.image} />
+          <Image source={satellite} style={styles.image} />
         </TouchableOpacity>
         <TouchableOpacity style={icons[2] ? styles.CardSelected : styles.Card} onPress={()=>updateSelected(3)}>
 
-          <Image  source={Tanques} style={styles.image} />
+          <Image  source={trophy} style={styles.image} />
+          
         </TouchableOpacity>
       </View>
       }

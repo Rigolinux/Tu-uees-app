@@ -8,7 +8,8 @@ import * as Location from 'expo-location';
 import {APY_KEY_MAPS} from '@env'
 
 
-
+// icons close 
+import { AntDesign } from '@expo/vector-icons';
 
 //redux components
 import { useSelector,useDispatch } from 'react-redux';
@@ -16,18 +17,80 @@ import { useSelector,useDispatch } from 'react-redux';
 import {cleandtaTravel} from '../../src/redux/states/travel/data';
 
 import {db} from '../../backend/firebase';
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc,collection,query,getDocs,where } from "firebase/firestore";
 
 //navigation
 import { useNavigation } from '@react-navigation/native';
 
+//buttons
+import { useSelector } from 'react-redux';
 
 
-
+//icons
+//tanks icons
+const tankR = require('../../assets/images/iconsUser/Tank/TR.png');
+const tankA = require('../../assets/images/iconsUser/Tank/TA.png');
+const tankV = require('../../assets/images/iconsUser/Tank/TV.png');
+//zepellin icons
+const zepellinR = require('../../assets/images/iconsUser/zeepelin/ZR.png');
+const zepellinA = require('../../assets/images/iconsUser/zeepelin/ZA.png');
+const zepellinV = require('../../assets/images/iconsUser/zeepelin/ZV.png');
+//bus icons
+const busR = require('../../assets/images/iconsUser/bus/R.png');
+const busA = require('../../assets/images/iconsUser/bus/A.png');
+const busV = require('../../assets/images/iconsUser/bus/V.png'); 
 
 
 const NavigationScreen = () => {
 
+  //hooks of icons
+  const [icon,setIcon] = React.useState([]);
+  const [colorline,setColorline] = React.useState("white");
+  const [sizeline,setSizeline] = React.useState("1");
+
+  //update visual icons
+  const updateIcon = (value) => {
+    switch (value) {
+      case 1:
+        setIcon([busV,busA,busR]);
+          break;
+      case 2:
+        setIcon([zepellinV,zepellinA,zepellinR]);
+        break;
+      case 3:
+        setIcon([tankV,tankA,tankR]);
+        break;
+
+    }
+
+  }
+  //profile data
+  const profile = useSelector(state => state.profile);
+
+  //get db icons
+  const chargeSettings = () => {
+    const perfilesSettingsCollection  = collection(db, "Perfiles");
+    const perfilesSettingsFilter      = query(perfilesSettingsCollection, where("id_user", "==", profile.id_user));
+    const perfilesSettings            = [];
+    const perfilesSettingsSnap        = getDocs(perfilesSettingsFilter);
+    perfilesSettingsSnap.then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        perfilesSettings.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+      setPerfilesSettings(perfilesSettings);
+
+      let colorcharge = perfilesSettings[0].color;
+      let valuecharge = perfilesSettings[0].values;
+      
+      setColorline(colorcharge);
+      updateIcon(perfilesSettings[0].icon);
+      setSizeline(valuecharge);
+
+    });
+  }
 
   //navegacion
   const navigation = useNavigation();
@@ -69,9 +132,7 @@ const NavigationScreen = () => {
   const [textbtn,setTextbtn] = React.useState("Iniciar rastreo");
 
 
-  //images
-  const [stateImage,setStateImage] = React.useState('')
-  let driverImg = require('../../assets/images/icons/Tank/TV.png');
+
 
   const getmyPosition = async () => {
   
@@ -94,6 +155,7 @@ const NavigationScreen = () => {
   
 
   React.useEffect( () => {
+      chargeSettings();
       getmyPosition().then(()=>{
         console.log("empiezo a navagar");
         setTravel(true);
@@ -103,9 +165,23 @@ const NavigationScreen = () => {
       return () => backHandler.remove()
     
       
-  },[]);
+  },[]); 
 
-  
+  const titlestate = (busstate) => {
+    let title = "";
+    switch (busstate) {
+      case "1":
+        title = "Disponible";
+        break;
+      case "2":
+        title = "Poco disponible";
+        break;
+      case "3":
+        title = "No disponible";
+        break;
+      
+    }
+  }
 
 
 const getCurrentDriverPosition = async () => {
@@ -131,17 +207,17 @@ const getCurrentDriverPosition = async () => {
       else{
         console.log("el viaje que buscas ha terminado");
         setTravel(false);
-        //dispatch(cleandtaTravel());
+        Alert.alert("Error","El viaje que buscas ha terminado o ya no esta disponible");
         navigation.navigate("Home");
       }
   }});
-}
+} 
 
    
  
   const stoptTravel = () =>{
         setTravel(false);
-        dispatch(cleandtaTravel());
+        
         navigation.navigate("Home");
 
   }
@@ -149,11 +225,7 @@ const getCurrentDriverPosition = async () => {
  
   
 
- const updatestatedestination = () => {
-    console.log("voy a actualizar el estado del destino");
-    setStatePasanger("2");
-    console.log("el estado del destino es",statePasanger);
- }
+ 
  const Travelstatus = () => {
 
   if(!travel){
@@ -186,7 +258,7 @@ const getCurrentDriverPosition = async () => {
           longitudeDelta: 0.0421,
           
         });
-        getCurrentDriverPosition();
+       getCurrentDriverPosition();
       }}
         >
       
@@ -194,25 +266,24 @@ const getCurrentDriverPosition = async () => {
       <Marker
       draggable
       coordinate={destination}
+      image={icon[statePasanger]}
 
-      title="Pasajero"
-      image={driverImg}
-      //description={()=>{()=>updatestatedestination()}}
-      
+      title={titlestate(statePasanger)}
+     
       >
       </Marker>
 
-      <MapViewDirections
+       <MapViewDirections
         origin={origin}
         destination={destination}
         apikey = {APY_KEY_MAPS}
-        strokeWidth={3}
+        strokeWidth={sizeline}
         mode="DRIVING"
-        strokeColor="hotpink"
+        strokeColor={colorline}
         timePrecision="now"
         precision='high'
-        />
-      </MapView>
+        />*
+      </MapView> 
       
       <StatusBar
         animated={true}
@@ -227,7 +298,12 @@ const getCurrentDriverPosition = async () => {
           <Text style={{color:"#ffff",fontSize: 15}} >{textbtn}</Text>
       </View>
       </TouchableOpacity>
-      
+      <TouchableOpacity style={{position:'absolute',alignItems:'flex-end',margin:10}} onPress={() => stoptTravel()}>
+        <View style={{height:70,width:70 ,backgroundColor:'red',borderRadius:35,marginBottom:5,justifyContent:'center',alignItems:'center'}}>
+        <Text style={{color:'white'}}><AntDesign name="close" size={44} color="white"/> </Text>
+        </View>
+      </TouchableOpacity>
+
     </View>
   )
 }
