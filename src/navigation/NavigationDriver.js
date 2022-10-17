@@ -14,7 +14,8 @@ import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
 
-
+//import colors
+import { colors } from '../../utils/colors';
 
 
 const NavigationDriver = () => {
@@ -30,20 +31,20 @@ const NavigationDriver = () => {
     initialRouteName='Home'
     activeColor="blue"
       inactiveColor="#ff0b0b"
-     screenOptions={
+      screenOptions={
         {
 
           tabBarActiveBackgroundColor:    "#a9a9a9",
           // tabBarInactiveBackgroundColor:  "#ff0b0b",
           // text color inactive bottom tab
-          tabBarInactiveTintColor:        '#1a0bff',
+          tabBarInactiveTintColor:      colors.six,
 
           //text color active bottom tab
-          tabBarActiveTintColor: 'blue',
+          tabBarActiveTintColor:        colors.six,
           tabBarStyle:{
             
             //background of the tab bar
-            backgroundColor: '#3b5791',
+            backgroundColor:            colors.three,
           }
         }
       } >

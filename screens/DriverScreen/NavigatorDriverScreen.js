@@ -23,6 +23,11 @@ import { useNavigation } from "@react-navigation/native";
 //buttons
 import { SpeedDial } from "@rneui/themed";
 
+//icons-driver images
+const goal = require("../../assets/images/iconsDriver/tiny/meta.png"); //1
+const trophy = require("../../assets/images/iconsDriver/tiny/TROFEO.png"); //3
+const satelite = require("../../assets/images/iconsDriver/tiny/SATELITE.png"); //2
+
 
 const NavigatorDriverScreen = () => {
 
@@ -32,9 +37,35 @@ const NavigatorDriverScreen = () => {
 
   //redux data
   const { id_user } = useSelector((state) => state.profile);
-
-
   const datatrips = useSelector((state) => state.data);
+
+  //validating trips
+    let cordinatesDestination ={}
+    
+    if(datatrips.type_trip == "1"){
+      cordinatesDestination={ 
+        latitude: 13.715469540086294,
+        longitude: -89.23878068513399,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }
+    }
+    if(datatrips.type_trip == "2"){
+      cordinatesDestination={ 
+        latitude: 13.706546231782209,
+        longitude: -89.21181117711335,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }
+
+    }
+
+  //variables icons
+  const [colorline, setColorline] = React.useState("white");
+  const [sizeline, setSizeline] = React.useState("1");
+  const [icon, setIcon] = React.useState([goal, satelite, trophy]);
+  const [iconSelected, setIconSelected] = React.useState(0);
+
   //variables de botones
   const [open, setOpen] = React.useState(false);
   const [pasanger, setPasanger] = React.useState("1");
@@ -44,18 +75,39 @@ const NavigatorDriverScreen = () => {
   // varianles de navegacion
   const [travel, setTravel] = React.useState(false);
   const [origin, setorigin] = React.useState({
+
     latitude: 13.706546231782209,
     longitude: -89.21181117711335,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
 
-  const [destination, setdestination] = React.useState({
-    latitude: 13.715196613181005,
-    longitude: -89.23903416315856,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
+  const [destination, setdestination] = React.useState(cordinatesDestination);
+
+  //get db icons
+  const chargeSettings = () => {
+    const perfilesSettingsCollection  = collection(db, "Perfiles");
+    const perfilesSettingsFilter      = query(perfilesSettingsCollection, where("id_user", "==", profile.id_user));
+    const perfilesSettings            = [];
+    const perfilesSettingsSnap        = getDocs(perfilesSettingsFilter);
+    perfilesSettingsSnap.then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        perfilesSettings.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+      setPerfilesSettings(perfilesSettings);
+
+      let colorcharge = perfilesSettings[0].color;
+      let valuecharge = perfilesSettings[0].values;
+      
+      setColorline(colorcharge);
+      setIconSelected(perfilesSettings[0].icon);
+      setSizeline(valuecharge);
+
+    });
+  }
 
   React.useEffect(async () => {
     // preguntar si tiene viaje asignado
@@ -74,6 +126,9 @@ const NavigatorDriverScreen = () => {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
     });
+    // traer icons
+    chargeSettings();
+
   }, []);
 
   const Updatelocation = async () => {
@@ -228,14 +283,16 @@ const NavigatorDriverScreen = () => {
           Updatelocation();
         }}
       >
-        <Marker draggable coordinate={destination} />
+        <Marker draggable 
+        image={icon[iconSelected]}
+        coordinate={destination} />
         <MapViewDirections
           origin={origin}
           destination={destination}
           apikey={APY_KEY_MAPS}
-          strokeWidth={10}
+          strokeWidth={sizeline}
+          strokeColor={colorline}
           mode="DRIVING"
-          strokeColor="hotpink"
           timePrecision="now"
           precision="high"
         />

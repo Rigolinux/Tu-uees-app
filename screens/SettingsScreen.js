@@ -1,4 +1,4 @@
-import { View, Text,StyleSheet,TouchableOpacity,Image } from 'react-native'
+import { View, Text,StyleSheet,TouchableOpacity,Image, Alert } from 'react-native'
 import { Slider } from '@rneui/themed';
 import React from 'react'
 
@@ -163,6 +163,7 @@ const SettingsScreen = () => {
       // console.log("Id del documento perfil:", perfildoc, "id del usuario:", profile.id_user);
       console.log("Id del documento perfil:", perfildoc[0].id, "id del usuario:", profile.id_user);
       updatePerfil(perfildoc);
+
     });
   }
 
@@ -175,7 +176,7 @@ const SettingsScreen = () => {
             color:    colorline,
             values:   value,
           });
-          console.log("Se actualizo correctamente las preferencias");
+          Alert.alert("Exito","Personalizacion actualizada correctamente");
     } catch (error) {
         console.log("Error al actualizar las preferencias", error.message);
     }
