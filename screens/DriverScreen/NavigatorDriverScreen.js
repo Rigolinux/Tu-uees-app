@@ -14,7 +14,7 @@ import { APY_KEY_MAPS } from "@env";
 import { useSelector, useDispatch } from "react-redux";
 
 //db
-import { collection, doc, updateDoc, where, query,deleteDoc } from "firebase/firestore";
+import { collection, doc, updateDoc, where, query,deleteDoc,getDoc,getDocs } from "firebase/firestore";
 import { db } from "../../backend/firebase";
 
 //navigation}
@@ -36,7 +36,7 @@ const NavigatorDriverScreen = () => {
   const navigation = useNavigation();
 
   //redux data
-  const { id_user } = useSelector((state) => state.profile);
+  const profile = useSelector((state) => state.profile);
   const datatrips = useSelector((state) => state.data);
 
   //validating trips
@@ -62,9 +62,10 @@ const NavigatorDriverScreen = () => {
 
   //variables icons
   const [colorline, setColorline] = React.useState("white");
-  const [sizeline, setSizeline] = React.useState("1");
-  const [icon, setIcon] = React.useState([goal, satelite, trophy]);
-  const [iconSelected, setIconSelected] = React.useState(0);
+  const [sizeline, setSizeline] = React.useState(1);
+  const [icon, setIcon] = React.useState(goal);
+  const [iconSelected, setIconSelected] = React.useState(1);
+  const [perfilesSettings, setPerfilesSettings] = React.useState([]);
 
   //variables de botones
   const [open, setOpen] = React.useState(false);
@@ -104,12 +105,25 @@ const NavigatorDriverScreen = () => {
       
       setColorline(colorcharge);
       setIconSelected(perfilesSettings[0].icon);
+      switch(perfilesSettings[0].icon){
+        case 1:
+          setIcon(goal);
+          break;
+        case 2:
+          setIcon(satelite);
+          break;
+        case 3:
+          setIcon(trophy);
+          break;
+
+      }
+      console.log("icono seleccionado",perfilesSettings[0].icon);
       setSizeline(valuecharge);
 
     });
   }
-
-  React.useEffect(async () => {
+  
+  React.useEffect(async() => {
     // preguntar si tiene viaje asignado
 
     // si tiene viaje asignado
@@ -126,13 +140,17 @@ const NavigatorDriverScreen = () => {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
     });
-    // traer icons
-    chargeSettings();
+    
 
   }, []);
 
+  React.useEffect(() => {
+    // traer icons
+    chargeSettings();
+  },[]);
+
   const Updatelocation = async () => {
-    const locationeRef = doc(db, "en_Curso", id_user);
+    const locationeRef = doc(db, "en_Curso", profile.id_user);
     await updateDoc(locationeRef, {
       latitude: origin.latitude,
       longitude: origin.longitude,
@@ -193,7 +211,7 @@ const NavigatorDriverScreen = () => {
       // Actualizando datos de la coleccion de en_Curso
       try{
         const en_CursoRef = collection(db, "en_Curso");
-        const en_CursoUp = doc(en_CursoRef, id_user); // <--- Aquí se debe cambiar el id del usuario por que va quemado
+        const en_CursoUp = doc(en_CursoRef, profile.id_user); // <--- Aquí se debe cambiar el id del usuario por que va quemado
         await updateDoc(en_CursoUp, {
           latitude:   0,
           longitude:  0,
@@ -284,7 +302,7 @@ const NavigatorDriverScreen = () => {
         }}
       >
         <Marker draggable 
-        image={icon[iconSelected]}
+        image={icon}
         coordinate={destination} />
         <MapViewDirections
           origin={origin}

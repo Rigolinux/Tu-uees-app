@@ -22,8 +22,7 @@ import { doc, getDoc,collection,query,getDocs,where } from "firebase/firestore";
 //navigation
 import { useNavigation } from '@react-navigation/native';
 
-//buttons
-import { useSelector } from 'react-redux';
+
 
 
 //icons
@@ -44,26 +43,72 @@ const busV = require('../../assets/images/iconsUser/bus/V.png');
 const NavigationScreen = () => {
 
   //hooks of icons
-  const [icon,setIcon] = React.useState([]);
+  const [icon,setIcon] = React.useState(busV);
   const [colorline,setColorline] = React.useState("white");
   const [sizeline,setSizeline] = React.useState("1");
-
+  const [iconType,setIconType] = React.useState(1);
   //update visual icons
   const updateIcon = (value) => {
     switch (value) {
       case 1:
-        setIcon([busV,busA,busR]);
+        setIcon(busV);
           break;
       case 2:
-        setIcon([zepellinV,zepellinA,zepellinR]);
+        setIcon(zepellinV);
         break;
       case 3:
-        setIcon([tankV,tankA,tankR]);
+        setIcon(tankV);
         break;
 
     }
 
   }
+  const updateImagestate =(value) => {
+    switch (iconType) {
+      case 1:
+        switch (value) {
+          case 1:
+            setIcon(busV);
+            break;
+          case 2:
+            setIcon(busA);
+            break;
+          case 3:
+            setIcon(busR);
+            break;
+            }
+          break;
+      case 2:
+        switch (value) {
+          case 1:
+            setIcon(zepellinV);
+            break;
+          case 2:
+            setIcon(zepellinA);
+            break;
+          case 3:
+            setIcon(zepellinR);
+            break;
+          }
+        break;
+      case 3:
+        switch (value) {
+          case 1:
+            setIcon(tankV);
+            break;
+          case 2:
+            setIcon(tankA);
+            break;
+          case 3:
+            setIcon(tankR);
+            break;
+         }
+        break;
+
+    }
+
+  }
+
   //profile data
   const profile = useSelector(state => state.profile);
 
@@ -80,13 +125,16 @@ const NavigationScreen = () => {
           ...doc.data()
         });
       });
-      setPerfilesSettings(perfilesSettings);
+    
 
       let colorcharge = perfilesSettings[0].color;
       let valuecharge = perfilesSettings[0].values;
       
       setColorline(colorcharge);
+
       updateIcon(perfilesSettings[0].icon);
+      setIconType(perfilesSettings[0].icon);
+
       setSizeline(valuecharge);
 
     });
@@ -125,7 +173,7 @@ const NavigationScreen = () => {
   const [state,setState] = React.useState(false)
 
   // ver el estado del transporte en curso
-  const[statePasanger,setStatePasanger] = React.useState("1")
+  const[statePasanger,setStatePasanger] = React.useState(1)
   const [description,setDescription] = React.useState("");
 
   const [colorbtn,setColorbtn] = React.useState("green");
@@ -201,6 +249,7 @@ const getCurrentDriverPosition = async () => {
       setState(state)
       
       setStatePasanger(statePasanger);
+      updateImagestate(statePasanger);
       console.log("mira lo que traje hdp",doc.data());
       console.log("destino",destination);
       }
@@ -266,7 +315,7 @@ const getCurrentDriverPosition = async () => {
       <Marker
       draggable
       coordinate={destination}
-      image={icon[statePasanger]}
+      image={icon}
 
       title={titlestate(statePasanger)}
      
@@ -282,7 +331,7 @@ const getCurrentDriverPosition = async () => {
         strokeColor={colorline}
         timePrecision="now"
         precision='high'
-        />*
+        />
       </MapView> 
       
       <StatusBar
@@ -300,7 +349,7 @@ const getCurrentDriverPosition = async () => {
       </TouchableOpacity>
       <TouchableOpacity style={{position:'absolute',alignItems:'flex-end',margin:10}} onPress={() => stoptTravel()}>
         <View style={{height:70,width:70 ,backgroundColor:'red',borderRadius:35,marginBottom:5,justifyContent:'center',alignItems:'center'}}>
-        <Text style={{color:'white'}}><AntDesign name="close" size={44} color="white"/> </Text>
+          <AntDesign name="close" size={44} color="white"/> 
         </View>
       </TouchableOpacity>
 

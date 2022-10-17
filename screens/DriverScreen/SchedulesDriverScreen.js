@@ -167,11 +167,12 @@ const SchedulesDriverScreen = (props) => {
         correo_del_admin: correo_del_admin,         // <--- Aquí se debe cambiar el correo del usuario por que va quemado
         date_of_travel:   datosdeviaje.date_of_travel,
         finalizado:       false,
-        id_user:          id_user,                  // <--- Aquí se debe cambiar el id del usuario por que va quemado
+        id_user:          id_user,
         state:            true,
         type_of_trip:     datosdeviaje.type_of_trip,
       });
       console.log("Se creo el documento en la coleccion de Historial con exito");
+      console.log("Viaje datos, ", datosdeviaje);
     } catch (error) {
       console.log("Error al crear el documento en la coleccion de Historial", error);
       // Alert.alert("Error", error.message);
