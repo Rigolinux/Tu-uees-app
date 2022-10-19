@@ -226,7 +226,7 @@ const SchedulesScreen = () => {
 
                     <ListItem.Content>
 
-                      <ListItem.Title>
+                      <ListItem.Title style={styles.ListItemTitle} >
                         {"Nombre: "}
                         {horarioprox.nombre}
                       </ListItem.Title>
@@ -241,14 +241,14 @@ const SchedulesScreen = () => {
                       {"Identificacion:"} {horarioprox.id_user}
                     </ListItem.Subtitle> */}
 
-                      <ListItem.Subtitle>
+                      <ListItem.Subtitle style={styles.ListItemSubTitle} >
                         {"Tipo de viaje:"}{" "}
                         {horarioprox.type_of_trip == 1
                           ? "Metrocentro - Universidad"
                           : "Universidad - Metrocentro"}
                       </ListItem.Subtitle>
 
-                      <ListItem.Subtitle>
+                      <ListItem.Subtitle style={styles.ListItemSubTitle} >
                         {"Hora de partida:"}{" "}
                         {moment(horarioprox.date_of_travel.toDate()).format(
                           "lll"
@@ -289,7 +289,7 @@ const SchedulesScreen = () => {
                     size="large"
                   />
                   <ListItem.Content>
-                    <ListItem.Title>
+                    <ListItem.Title style={styles.ListItemTitle} >
                       {"Nombre: "}
                       {horariocursoida.nombre}
                     </ListItem.Title>
@@ -300,13 +300,13 @@ const SchedulesScreen = () => {
                     {/* <ListItem.Subtitle>
                       {"Identificacion:"} {horariocursoida.id_user}
                     </ListItem.Subtitle> */}
-                    <ListItem.Subtitle>
+                    <ListItem.Subtitle style={styles.ListItemSubTitle} >
                       {"Tipo de viaje:"}{" "}
                       {horariocursoida.type_of_trip == 1
                         ? "Metrocentro - Universidad"
                         : "Universidad - Metrocentro"}
                     </ListItem.Subtitle>
-                    <ListItem.Subtitle>
+                    <ListItem.Subtitle style={styles.ListItemSubTitle} >
                       {"Hora de partida:"}{" "}
                       {moment(horariocursoida.date_of_travel.toDate()).format(
                         "lll"
@@ -341,7 +341,7 @@ const SchedulesScreen = () => {
                     size="large"
                   />
                   <ListItem.Content>
-                    <ListItem.Title>
+                    <ListItem.Title style={styles.ListItemTitle} >
                       {"Nombre: "}
                       {horariocursoret.nombre}
                     </ListItem.Title>
@@ -352,13 +352,13 @@ const SchedulesScreen = () => {
                     {/* <ListItem.Subtitle>
                       {"Identificacion:"} {horariocursoret.id_user}
                     </ListItem.Subtitle> */}
-                    <ListItem.Subtitle>
+                    <ListItem.Subtitle style={styles.ListItemSubTitle} >
                       {"Tipo de viaje:"}{" "}
                       {horariocursoret.type_of_trip == 1
                         ? "Metrocentro - Universidad"
                         : "Universidad - Metrocentro"}
                     </ListItem.Subtitle>
-                    <ListItem.Subtitle>
+                    <ListItem.Subtitle style={styles.ListItemSubTitle} >
                       {"Hora de partida:"}{" "}
                       {moment(horariocursoret.date_of_travel.toDate()).format(
                         "lll"
@@ -390,4 +390,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 10,
   },
+  ListItemTitle:{
+    color: "white",
+  },
+  ListItemSubTitle:{
+    color: "white",
+  }
 });

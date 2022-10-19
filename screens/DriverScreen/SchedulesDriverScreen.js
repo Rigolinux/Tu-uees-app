@@ -213,7 +213,8 @@ const SchedulesDriverScreen = (props) => {
               key={horarioprox.id}
               bottomDivider
               onPress={() => openConfirmationAlert(horarioprox)}
-            >
+              containerStyle={styles.listItem}
+              >
               <Avatar
                 icon={{
                   name: "bus-outline",
@@ -224,7 +225,7 @@ const SchedulesDriverScreen = (props) => {
               />
 
               <ListItem.Content>
-                <ListItem.Title>
+                <ListItem.Title style={styles.ListItemTitle} >
                   {"Nombre: "}
                   {horarioprox.nombre}
                   </ListItem.Title>
@@ -238,14 +239,14 @@ const SchedulesDriverScreen = (props) => {
                   {"Identificacion:"} {horarioprox.id_user}
                 </ListItem.Subtitle> */}
 
-                <ListItem.Subtitle>
+                <ListItem.Subtitle style={styles.ListItemSubTitle} >
                   {"Tipo de viaje: "}{" "}
                   {horarioprox.type_of_trip == 1 
                     ? "Metrocentro - Universidad" 
                     : "Universidad - Metrocentro"}
                 </ListItem.Subtitle>
 
-                <ListItem.Subtitle>
+                <ListItem.Subtitle style={styles.ListItemSubTitle} >
                   {"Hora de partida:"}{" "}
                   {moment(horarioprox.date_of_travel.toDate()).format("lll")}
                 </ListItem.Subtitle>
@@ -264,11 +265,21 @@ export default SchedulesDriverScreen;
 // Styles
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
     backgroundColor: colors.five,
   },
   listItem: {
-    backgroundColor: colors.five,
-    marginTop: 10,
+    backgroundColor: colors.three,
+    flex: 1,
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 10,
+    margin: 10,
+  },
+  ListItemTitle:{
+    color: "white",
+  },
+  ListItemSubTitle:{
+    color: "white",
   }
-})
+});
+
