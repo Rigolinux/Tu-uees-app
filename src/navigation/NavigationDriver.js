@@ -57,7 +57,7 @@ const NavigationDriver = () => {
           tabBarIcon: ({ color }) => (
               <FontAwesome name="user-circle" size={24} color="black" />
           ),
-          tabBarBadge: 3,
+         
           }
           
       }

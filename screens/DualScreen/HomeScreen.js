@@ -79,9 +79,10 @@ const HomeScreen = () => {
     navigation.navigate("UserNavigation");
   }
   return (
-    <SafeAreaView  >
+    <SafeAreaView >
       
     <View style={styles.container}>
+      <View style={styles.subContainer}>
       <StatusBar backgroundColor="black" hidden={false} />
       <Text style={styles.title}>Perfil</Text>
       <Text style={styles.subtitle}>Correo Electronico</Text>
@@ -104,8 +105,8 @@ const HomeScreen = () => {
       </TouchableOpacity>
       
 
-      <Text onPress={mapago}>ir a mapa</Text>
       
+      </View>
     </View>
     </SafeAreaView>
   )
@@ -115,20 +116,23 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
   container: {
+    
     height: '100%',
     backgroundColor: colors.five,
-    alignItems: 'flex-start',
+    alignItems: 'center',
     
 
   },
-  
+  subContainer:{
+    marginTop: 180,
+  },
   title:{
     color: colors.one,
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 10,
     
-    marginLeft: 10,
+    
     marginTop: 10,
   },
   subtitle:{
@@ -137,7 +141,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     marginBottom: 10,
-    marginLeft: 20,
+    
     
   },
   text:{
@@ -147,7 +151,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.three,
     opacity: 0.6,
     borderRadius: 2,
-    marginLeft: 30,
+   
     height: 30,
     width: 200,
     marginBottom: 10,
@@ -158,7 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     opacity: 0.8,
     borderRadius: 5,
-    marginLeft: 30,
+    
     width: 200,
     marginBottom: 10,
     height: 30,
