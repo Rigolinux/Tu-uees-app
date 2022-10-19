@@ -72,6 +72,7 @@ const SchedulesDriverScreen = (props) => {
           correo_del_admin,
           date_of_travel,
           id_user,
+          nombre,
           state,
           type_of_trip,
         } = doc.data();
@@ -80,6 +81,7 @@ const SchedulesDriverScreen = (props) => {
           correo_del_admin,
           date_of_travel,
           id_user,
+          nombre,
           state,
           type_of_trip,
         });
@@ -168,6 +170,7 @@ const SchedulesDriverScreen = (props) => {
         date_of_travel:   datosdeviaje.date_of_travel,
         finalizado:       false,
         id_user:          id_user,
+        nombre:           datosdeviaje.nombre,
         state:            true,
         type_of_trip:     datosdeviaje.type_of_trip,
       });
@@ -219,14 +222,27 @@ const SchedulesDriverScreen = (props) => {
                 }}
                 size="large"
               />
+
               <ListItem.Content>
                 <ListItem.Title>
+                  {"Nombre: "}
+                  {horarioprox.nombre}
+                  </ListItem.Title>
+
+                {/* <ListItem.Title>
                   {"Conductor: "}
                   {horarioprox.correo_del_admin}
                 </ListItem.Title>
 
                 <ListItem.Subtitle>
                   {"Identificacion:"} {horarioprox.id_user}
+                </ListItem.Subtitle> */}
+
+                <ListItem.Subtitle>
+                  {"Tipo de viaje: "}{" "}
+                  {horarioprox.type_of_trip == 1 
+                    ? "Metrocentro - Universidad" 
+                    : "Universidad - Metrocentro"}
                 </ListItem.Subtitle>
 
                 <ListItem.Subtitle>
@@ -238,7 +254,7 @@ const SchedulesDriverScreen = (props) => {
           );
         })}
       </View>
-      <Text onPress={()=>console.log(perfil)}>salir</Text>
+  
     </ScrollView>
   );
 };
