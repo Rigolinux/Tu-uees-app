@@ -151,21 +151,19 @@ const styles = StyleSheet.create({
     backgroundColor: colors.three,
     opacity: 0.6,
     borderRadius: 2,
-   
-    height: 30,
-    width: 200,
+    height: 35,
+    width: 250,
     marginBottom: 10,
     justifyContent: 'center',
-    
+    alignItems: 'center',
   },
   button:{
     backgroundColor: "red",
     opacity: 0.8,
     borderRadius: 5,
-    
-    width: 200,
+    width: 250,
     marginBottom: 10,
-    height: 30,
+    height: 35,
     justifyContent: 'center',
     
   },

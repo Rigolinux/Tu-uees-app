@@ -71,8 +71,14 @@ import {colors} from '../../utils/colors'
 
 
     const handleLogin = () => {
-        console.log(email);
-        console.log(password);
+
+      if(email==""){
+        Alert.alert("Error","El campo correo esta vacio");
+      } else if(password==""){
+        Alert.alert("Error","El campo contraseña esta vacio");
+      } else{
+        // console.log(email);
+        // console.log(password);
       signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       console.log("login promesa",userCredential);
@@ -101,22 +107,28 @@ import {colors} from '../../utils/colors'
           else{
             navigation.navigate("User")
           }
-
+  
           })
         }
        return execute(); 
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error.message);
+      if(error.message == "Firebase: Error (auth/invalid-email)."){
+        Alert.alert("Error","El correo ingresado no es valido");
+      } else if(error.message == "Firebase: Error (auth/user-not-found)."){
+        Alert.alert("Error","El usuario ingresado no existe");
+      } else if(error.message == "Firebase: Error (auth/wrong-password)."){
+        Alert.alert("Error","La contraseña ingresada es incorrecta");
+      }
     })
-    }
-    
-   
+      }
+    }  
   
     return (
       <ImageBackground source={fondo} resizeMode="cover" style={styles.image}>
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <Text style={styles.title}>TUEES</Text>
+        <Text style={styles.title}>TUees</Text>
         <View style={styles.inputContainer}>
           <Text style={styles.Text}>Ingrese Usuario</Text>
           <TextInput
@@ -165,12 +177,13 @@ import {colors} from '../../utils/colors'
     inputContainer: {
     },
     input: {
+      textAlign: "center",
       backgroundColor: colors.one,
       opacity: 0.9,
       marginBottom: 30,
       borderRadius: 3,
-      textAlign: "center",
-      width: 200,
+      width: 250,
+      height: 35,
       color: 'white',
       fontSize: 15,
       fontFamily:"sans-serif",
@@ -181,7 +194,7 @@ import {colors} from '../../utils/colors'
       backgroundColor: colors.two,
       marginBottom: 15,
       padding: 10,
-      width: 200,
+      width: 250,
       borderRadius: 5,
     },
     buttonText: {
