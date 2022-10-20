@@ -2,7 +2,7 @@ import {
     KeyboardAvoidingView,
     StyleSheet,
     TextInput,
-    View,Text,TouchableOpacity, Alert
+    View,Text,TouchableOpacity, Alert, ImageBackground
   } from "react-native";
   import React from "react";
   
@@ -26,18 +26,19 @@ import {colors} from '../../utils/colors'
 
 
 
+
   //auth firebase
   const auth = getAuth();
   
-  
-  
+ //images  
+  const fondo = require("../../assets/images/uees1.jpg");
   const Loginscreen = () => {
     const dispatch = useDispatch();
   
     const navigation = useNavigation();
   
-    const [email, setEmail] = React.useState("prueba01@gmail.com");
-    const [password, setPassword] = React.useState("12345678");
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
     
     const [datos, setDatos] = React.useState([]);    
     
@@ -113,8 +114,9 @@ import {colors} from '../../utils/colors'
    
   
     return (
+      <ImageBackground source={fondo} resizeMode="cover" style={styles.image}>
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <Text style={styles.title}>TUEES APP</Text>
+        <Text style={styles.title}>TUEES</Text>
         <View style={styles.inputContainer}>
           <Text style={styles.Text}>Ingrese Usuario</Text>
           <TextInput
@@ -142,6 +144,7 @@ import {colors} from '../../utils/colors'
           </TouchableOpacity> */}
         </View>
       </KeyboardAvoidingView>
+      </ImageBackground>
     );
   };
   
@@ -152,13 +155,18 @@ import {colors} from '../../utils/colors'
       justifyContent: "center",
       alignItems: "center",
       flex: 1,
-      backgroundColor: colors.five,
+      
     },
+    image: {
+      flex: 1,
+      justifyContent: "center"
+    }
+    ,
     inputContainer: {
     },
     input: {
       backgroundColor: colors.one,
-      opacity: 0.3,
+      opacity: 0.9,
       marginBottom: 30,
       borderRadius: 3,
       textAlign: "center",
@@ -181,12 +189,12 @@ import {colors} from '../../utils/colors'
       color: "white",
     },
     Text: {
-      color : colors.one,
+      color : colors.six,
       
     },
     title: {
-      color: colors.one,
-      fontSize: 30,
+      color: colors.six,
+      fontSize: 40,
       fontWeight: "bold",
       marginBottom: 30,
     },
